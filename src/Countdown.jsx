@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import moment from "moment";
 import { Link } from "@reach/router";
+import { ChallengeContext } from "./App";
 
-const challenge = moment("2020-12-01T00:00:00");
 const Countdown = () => {
+  const date = useContext(ChallengeContext);
   const [text, setText] = useState(null);
   useEffect(() => {
     setTimeout(() => {
       const newDiff = {
-        days: moment.duration(challenge.diff(moment())).get("d"),
-        hours: moment.duration(challenge.diff(moment())).get("h"),
-        mins: moment.duration(challenge.diff(moment())).get("m"),
-        secs: moment.duration(challenge.diff(moment())).get("s"),
+        days: moment.duration(date.diff(moment())).get("d"),
+        hours: moment.duration(date.diff(moment())).get("h"),
+        mins: moment.duration(date.diff(moment())).get("m"),
+        secs: moment.duration(date.diff(moment())).get("s"),
       };
       setText(
         `${newDiff.days}d ${newDiff.hours}h ${newDiff.mins}m ${newDiff.secs}s`
@@ -32,7 +33,7 @@ const Countdown = () => {
         flexDirection: "column",
       }}
     >
-      {moment().isBefore(challenge) ? (
+      {moment().isBefore(date) ? (
         <>
           <p>Starts in</p>
           <h2>{text}</h2>
