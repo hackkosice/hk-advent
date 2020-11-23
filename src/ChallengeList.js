@@ -3,7 +3,7 @@ import { FirebaseDatabaseNode } from "@react-firebase/database";
 import { Link } from "@reach/router";
 import moment from 'moment';
 
-const challenge = moment("2020-11-01T00:00:00");
+const challenge = moment("2020-12-01T00:00:00");
 
 const ChallengeList = () => {
   if(moment().isBefore(challenge)) {

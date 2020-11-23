@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { Link } from "@reach/router";
 
-const challenge = moment("2020-11-01T00:00:00");
+const challenge = moment("2020-12-01T00:00:00");
 const Countdown = () => {
   const [text, setText] = useState(null);
   useEffect(() => {
