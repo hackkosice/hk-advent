@@ -70,7 +70,13 @@ body {
   flex-flow: row wrap;
   align-content: stretch;
   justify-content: stretch;
-  margin-top: 1rem;
+  margin: 2rem 0;
+}
+
+@media screen and (max-width: 480px) {
+  .input {
+    flex-flow: column nowrap;
+  }
 }
 
 input {
@@ -104,6 +110,15 @@ img {
   background-color: orange;
   color: black;
   margin: 0 0 1rem 1rem;
+}
+
+.response {
+  padding: 5px;
+  max-width: 150px;
+}
+
+.disabled {
+  opacity: .5;
 }
 
 /* Special keyframes etc */

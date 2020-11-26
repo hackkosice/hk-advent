@@ -59,7 +59,7 @@ const ChallengeList = () => {
                     d.value.submissions[ch.id - 1].includes(
                       localStorage.getItem("username")
                     );
-                  if (ch.visible && !isSolved) {
+                  if (moment().isAfter(ch.visible) && !isSolved) {
                     return (
                       <Link
                         key={ch.id}
@@ -78,6 +78,11 @@ const ChallengeList = () => {
                         ch.id === 24 ? "box disabled special" : "box disabled"
                       }
                       style={{ background: isSolved ? "green" : "transparent" }}
+                      title={
+                        isSolved
+                          ? "You already solved it"
+                          : `Available ${moment().to(ch.visible)}`
+                      }
                     >
                       {ch.id}
                     </div>

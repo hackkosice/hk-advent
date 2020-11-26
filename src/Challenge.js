@@ -6,6 +6,11 @@ const Tag = ({ children }) => {
   return <p id="tag">{children}</p>;
 };
 
+const Correct = () => <p style={{ marginLeft: "1rem" }}>&#x2714; Correct</p>;
+const Incorrect = () => (
+  <p style={{ marginLeft: "1rem" }}>&#x274c; Incorrect</p>
+);
+
 const Challenge = ({ location }) => {
   const [value, setValue] = useState("");
   const [isAnswered, setIsAnswered] = useState(false);
@@ -15,11 +20,11 @@ const Challenge = ({ location }) => {
     return <Redirect noThrow={true} to="/challenges" />;
   }
   const { challenge } = location.state;
-  console.log(challenge);
 
   const validateAnswer = () => {
     const { answer } = challenge;
-    setResponse(parseInt(value) === answer);
+    setResponse(value === answer);
+    setValue("");
     setIsAnswered(true);
   };
 
@@ -43,21 +48,15 @@ const Challenge = ({ location }) => {
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <button className="btn" onClick={validateAnswer}>
+        <button
+          className={value === "" ? "btn disabled" : "btn"}
+          onClick={validateAnswer}
+          disabled={value === ""}
+        >
           submit
         </button>
+        {isAnswered && (response ? <Correct /> : <Incorrect />)}
       </div>
-      {isAnswered && (
-        <p
-          style={{
-            backgroundColor: response ? "green" : "red",
-            padding: "5px",
-            maxWidth: 150,
-          }}
-        >
-          {response ? "Congrats" : "Incorrect"}
-        </p>
-      )}
       {isAnswered && response && (
         <FirebaseDatabaseTransaction path={`submissions/${challenge.id - 1}`}>
           {({ runTransaction }) => {
