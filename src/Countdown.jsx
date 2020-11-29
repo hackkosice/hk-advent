@@ -7,7 +7,7 @@ const Countdown = () => {
   const date = useContext(ChallengeContext);
   const [text, setText] = useState(null);
   useEffect(() => {
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       const newDiff = {
         days: moment.duration(date.diff(moment())).get("d"),
         hours: moment.duration(date.diff(moment())).get("h"),
@@ -18,6 +18,7 @@ const Countdown = () => {
         `${newDiff.days}d ${newDiff.hours}h ${newDiff.mins}m ${newDiff.secs}s`
       );
     }, 1000);
+    return () => clearTimeout(timeoutId);
   });
 
   if (!text) {

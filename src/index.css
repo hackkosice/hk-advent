@@ -10,7 +10,8 @@ body {
   color: white;
 }
 
-.btn {
+.btn,
+.fb-btn {
   border: none;
   background-color: #ef611e;
   color: #fff;
@@ -19,6 +20,10 @@ body {
   letter-spacing: 0.5px;
   font-family: "Press Start 2P", cursive;
   text-decoration: none;
+}
+
+.fb-btn {
+  background-color: #4267b2;
 }
 
 .active::after {
@@ -105,7 +110,7 @@ img {
 }
 
 #tag {
-  padding: .6rem;
+  padding: 0.6rem;
   border-radius: 10px;
   background-color: orange;
   color: black;
@@ -118,7 +123,7 @@ img {
 }
 
 .disabled {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 /* Special keyframes etc */

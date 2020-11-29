@@ -1,6 +1,7 @@
 import { navigate, Redirect } from "@reach/router";
 import { FirebaseDatabaseTransaction } from "@react-firebase/database";
 import React, { useState } from "react";
+import { FacebookProvider, Share } from "react-facebook";
 
 const Tag = ({ children }) => {
   return <p id="tag">{children}</p>;
@@ -58,25 +59,46 @@ const Challenge = ({ location }) => {
         {isAnswered && (response ? <Correct /> : <Incorrect />)}
       </div>
       {isAnswered && response && (
-        <FirebaseDatabaseTransaction path={`submissions/${challenge.id - 1}`}>
-          {({ runTransaction }) => {
-            const username = localStorage.getItem("username");
-            runTransaction({
-              reducer: (val) => {
-                if (val === null) {
-                  return [username];
-                } else {
-                  if (val.includes(username)) {
-                    return val;
+        <>
+          <FirebaseDatabaseTransaction path={`submissions/${challenge.id - 1}`}>
+            {({ runTransaction }) => {
+              const username = localStorage.getItem("username");
+              runTransaction({
+                reducer: (val) => {
+                  if (val === null) {
+                    return [username];
+                  } else {
+                    if (val.includes(username)) {
+                      return val;
+                    }
+                    return [...val, username];
                   }
-                  return [...val, username];
-                }
-              },
-            });
-            setTimeout(() => navigate("/challenges"), 3000);
-            return null;
-          }}
-        </FirebaseDatabaseTransaction>
+                },
+              });
+              // setTimeout(() => navigate("/challenges"), 3000);
+              return <></>;
+            }}
+          </FirebaseDatabaseTransaction>
+          <FacebookProvider appId="1075131816290966">
+            <Share
+              quote={`I solved Day ${challenge.id} challenge of the Hack Kosice Advent Calendar!`}
+            >
+              {({ handleClick, loading }) => (
+                <button
+                  className="fb-btn"
+                  type="button"
+                  disabled={loading}
+                  onClick={handleClick}
+                >
+                  Share
+                </button>
+              )}
+            </Share>
+          </FacebookProvider>
+          <button onClick={() => navigate("/challenges")} className="btn">
+            Back
+          </button>
+        </>
       )}
     </>
   );

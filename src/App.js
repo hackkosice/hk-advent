@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <ChallengeContext.Provider value={date}>
-      <div>
+      <div style={{ padding: "0 1rem" }}>
         <Link to="/" style={{ color: "white", textDecoration: "none" }}>
           <h1 style={{ textAlign: "center" }}>
             &#x1F384; Hack Kosice &#x1F384;

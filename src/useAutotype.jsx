@@ -8,7 +8,7 @@ const useAutotype = (
 ) => {
   const [renderedText, setRenderedText] = useState("");
   useEffect(() => {
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       if (text !== renderedText) {
         if (renderedText.length === 0) {
           setTimeout(() => {
@@ -32,6 +32,7 @@ const useAutotype = (
         }
       }
     }, 30);
+    return () => clearTimeout(timeoutId);
   }, [renderedText, cursorVisible, initialTimeout, ref, text]);
   return ref.current && ref.current.isDone;
 };
