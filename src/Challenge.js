@@ -57,9 +57,9 @@ const Challenge = ({ location }) => {
           >
             submit
           </button>
-          {isAnswered && (response ? <Correct /> : <Incorrect />)}
         </div>
       )}
+      {isAnswered && (response ? <Correct /> : <Incorrect />)}
       {isAnswered && response && (
         <div style={{ marginTop: "1rem" }}>
           <FirebaseDatabaseTransaction path={`submissions/${challenge.id - 1}`}>
