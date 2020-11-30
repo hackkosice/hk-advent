@@ -12,7 +12,7 @@ import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 
 export const ChallengeContext = createContext();
-const date = moment("2020-12-01T00:00:00");
+const date = moment("2020-11-01T00:00:00");
 
 const App = () => {
   // firebase.analytics();
