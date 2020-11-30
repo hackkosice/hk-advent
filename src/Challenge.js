@@ -38,28 +38,30 @@ const Challenge = ({ location }) => {
         ))}
       </div>
       <div
-        style={{ lineHeight: "1.5rem" }}
+        style={{ lineHeight: "1.5rem", overflowWrap: "anywhere" }}
         dangerouslySetInnerHTML={{ __html: challenge.body }}
       ></div>
-      <div className="input">
-        <input
-          type="text"
-          name="answer"
-          placeholder="Your answer"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-        <button
-          className={value === "" ? "btn disabled" : "btn"}
-          onClick={validateAnswer}
-          disabled={value === ""}
-        >
-          submit
-        </button>
-        {isAnswered && (response ? <Correct /> : <Incorrect />)}
-      </div>
+      {(!isAnswered || !response) && (
+        <div className="input">
+          <input
+            type="text"
+            name="answer"
+            placeholder="Your answer"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <button
+            className={value === "" ? "btn disabled" : "btn"}
+            onClick={validateAnswer}
+            disabled={value === ""}
+          >
+            submit
+          </button>
+          {isAnswered && (response ? <Correct /> : <Incorrect />)}
+        </div>
+      )}
       {isAnswered && response && (
-        <>
+        <div style={{ marginTop: "1rem" }}>
           <FirebaseDatabaseTransaction path={`submissions/${challenge.id - 1}`}>
             {({ runTransaction }) => {
               const username = localStorage.getItem("username");
@@ -98,7 +100,7 @@ const Challenge = ({ location }) => {
           <button onClick={() => navigate("/challenges")} className="btn">
             Back
           </button>
-        </>
+        </div>
       )}
     </>
   );

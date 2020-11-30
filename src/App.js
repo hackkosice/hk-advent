@@ -5,6 +5,7 @@ import Challenge from "./Challenge";
 import Home from "./Home";
 import { Router, Link } from "@reach/router";
 import Snow from "./SNEH.svg";
+import Snowman from "./snowman.svg";
 import firebase from "firebase/app";
 import "firebase/analytics";
 import moment from "moment";
@@ -14,7 +15,7 @@ export const ChallengeContext = createContext();
 const date = moment("2020-12-01T00:00:00");
 
 const App = () => {
-  firebase.analytics();
+  // firebase.analytics();
 
   useEffect(() => {
     if (!localStorage.getItem("username")) {
@@ -46,6 +47,7 @@ const App = () => {
             left: "0px",
           }}
         />
+        <img src={Snowman} alt="snowman" className="snowman" />
       </div>
     </ChallengeContext.Provider>
   );

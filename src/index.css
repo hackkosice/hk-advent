@@ -126,6 +126,25 @@ img {
   opacity: 0.5;
 }
 
+.snowman {
+  width: 300px;
+  position: fixed;
+  right: 10px;
+  bottom: 0;
+}
+
+@media screen and (max-width: 1100px) {
+  .snowman {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .snowman {
+    width: 100px;
+  }
+}
+
 /* Special keyframes etc */
 @keyframes cursor_blink {
   0% {
