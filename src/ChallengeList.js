@@ -59,7 +59,7 @@ const ChallengeList = () => {
                     d.value.submissions[ch.id - 1].includes(
                       localStorage.getItem("username")
                     );
-                  if (moment().isAfter(ch.visible) && !isSolved) {
+                  if (true || (moment().isAfter(ch.visible) && !isSolved)) {
                     return (
                       <Link
                         key={ch.id}
