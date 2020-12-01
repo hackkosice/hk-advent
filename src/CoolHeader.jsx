@@ -14,11 +14,11 @@ export const CoolHeader = ({ setDone }) => {
   );
   useAutotype(
     "Every day there will be one challenge to solve.",
-    3500,
+    1500,
     secondTextRef
   );
-  useAutotype("No winners, no losers, just pure joy :)", 6000, thirdTextRef);
-  useAutotype("Are you ready?", 8000, fourthTextRef, false);
+  useAutotype("No winners, no losers, just pure joy :)", 3000, thirdTextRef);
+  useAutotype("Are you ready?", 4000, fourthTextRef, false);
 
   useEffect(() => {
     if (
