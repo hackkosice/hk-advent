@@ -31,7 +31,7 @@ const useAutotype = (
           }, 1000);
         }
       }
-    }, 30);
+    }, 10);
     return () => clearTimeout(timeoutId);
   }, [renderedText, cursorVisible, initialTimeout, ref, text]);
   return ref.current && ref.current.isDone;
