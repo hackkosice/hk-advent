@@ -114,49 +114,6 @@ const ChallengeList = () => {
               </div>
             );
           })}
-          {/* <FirebaseDatabaseNode path="/">
-            {(d) => {
-              if (d.value) {
-                return d.value.challenges.map((ch) => {
-                  const isSolved =
-                    d.value.submissions &&
-                    d.value.submissions[ch.id - 1] &&
-                    d.value.submissions[ch.id - 1].includes(
-                      localStorage.getItem("username")
-                    );
-                  if (true || (moment().isAfter(ch.visible) && !isSolved)) {
-                    return (
-                      <Link
-                        key={ch.id}
-                        to={`/challenges/${ch.id}`}
-                        className={ch.id === 24 ? "box special" : "box"}
-                        state={{ challenge: ch }}
-                      >
-                        {ch.id}
-                      </Link>
-                    );
-                  }
-                  return (
-                    <div
-                      key={ch.id}
-                      className={
-                        ch.id === 24 ? "box disabled special" : "box disabled"
-                      }
-                      style={{ background: isSolved ? "green" : "transparent" }}
-                      title={
-                        isSolved
-                          ? "You already solved it"
-                          : `Available ${moment().to(ch.visible)}`
-                      }
-                    >
-                      {ch.id}
-                    </div>
-                  );
-                });
-              }
-              return null;
-            }}
-          </FirebaseDatabaseNode> */}
         </div>
       </div>
     </div>

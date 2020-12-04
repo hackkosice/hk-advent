@@ -86,25 +86,6 @@ const Challenge = ({ location }) => {
       {isAnswered && (response ? <Correct /> : <Incorrect />)}
       {isAnswered && response && (
         <div style={{ marginTop: "1rem" }}>
-          {/* <FirebaseDatabaseTransaction path={`submissions/${challenge.id - 1}`}>
-            {({ runTransaction }) => {
-              const username = localStorage.getItem("username");
-              runTransaction({
-                reducer: (val) => {
-                  if (val === null) {
-                    return [username];
-                  } else {
-                    if (val.includes(username)) {
-                      return val;
-                    }
-                    return [...val, username];
-                  }
-                },
-              });
-              // setTimeout(() => navigate("/challenges"), 3000);
-              return <></>;
-            }}
-          </FirebaseDatabaseTransaction> */}
           <FacebookProvider appId="1075131816290966">
             <Share
               quote={`I solved Day ${challenge.id} challenge of the Hack Kosice Advent Calendar!`}

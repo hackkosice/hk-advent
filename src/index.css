@@ -133,6 +133,10 @@ img {
   bottom: 0;
 }
 
+a {
+  color: orange;
+}
+
 @media screen and (max-width: 1100px) {
   .snowman {
     width: 200px;
