@@ -15,7 +15,7 @@ export const ChallengeContext = createContext();
 const date = moment("2020-11-01T00:00:00");
 
 const App = () => {
-  firebase.analytics();
+  // firebase.analytics();
 
   useEffect(() => {
     if (!localStorage.getItem("username")) {
