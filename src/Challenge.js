@@ -26,7 +26,7 @@ const Challenge = ({ location }) => {
     try {
       console.log(value);
       const resp = await axios.post(
-        "https://hka-validator.herokuapp.com/validate",
+        "https://validator.hackkosice.com/validate",
         {
           day,
           answer: value,

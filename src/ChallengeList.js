@@ -20,7 +20,7 @@ const ChallengeList = () => {
   );
 
   useEffect(() => {
-    axios("https://hka-validator.herokuapp.com/challenges").then((data) =>
+    axios("https://validator.hackkosice.com/challenges").then((data) =>
       setChallenges([
         ...data.data.data,
         ...challenges.slice(data.data.data.length),
@@ -32,7 +32,7 @@ const ChallengeList = () => {
   useEffect(() => {
     axios
       .post(
-        "https://hka-validator.herokuapp.com/solved",
+        "https://validator.hackkosice.com/solved",
         {
           user: localStorage.getItem("username"),
         },
