@@ -2,6 +2,7 @@ import React, { createContext, useEffect } from "react";
 import Snowfall from "react-snowfall";
 import ChallengeList from "./ChallengeList";
 import Challenge from "./Challenge";
+import Solutions from './Solutions'
 import Home from "./Home";
 import { Router, Link } from "@reach/router";
 import Snow from "./SNEH.svg";
@@ -33,6 +34,7 @@ const App = () => {
         </Link>
         <Router>
           <Home path="/" default />
+          <Solutions path="solutions" />
           <ChallengeList path="challenges" />
           <Challenge path="challenges/:id" />
         </Router>
