@@ -26,7 +26,7 @@ const Challenge = ({ location }) => {
     try {
       console.log(value);
       const resp = await axios.post(
-        "https://validator.hackkosice.com/validate",
+        "http://localhost:8080/validate",
         {
           day,
           answer: value,
@@ -61,10 +61,18 @@ const Challenge = ({ location }) => {
           <Tag key={i}>{tag}</Tag>
         ))}
       </div>
-      <div
+      {/* <div
         style={{ lineHeight: "1.5rem", overflowWrap: "anywhere" }}
         dangerouslySetInnerHTML={{ __html: challenge.body }}
-      ></div>
+      ></div> */}
+      <div style={{ lineHeight: "1.5rem", overflowWrap: "anywhere" }}>
+        Alice with her friends are sledding on hill which they described by a
+        function f(x)=arc_tan(x)+arc_tan(x+6). What is the speed of sledge at
+        the point x=-12 when starting at the point x=6? Assume no friction,
+        round the answer to 1 decimal place and use <b>g=9.81</b>.<br />
+        <img src="https://i.ibb.co/RHTPJFT/Untitled.png" alt="" />
+        <br />
+      </div>
       {(!isAnswered || !response) && !isSolved && (
         <div className="input">
           <input

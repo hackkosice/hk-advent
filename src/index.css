@@ -4,7 +4,7 @@
 
 body {
   padding: 10px;
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-display: swap;
   background-color: #5e2137;
   color: white;
@@ -12,13 +12,14 @@ body {
 
 .btn,
 .fb-btn {
+  margin-top: 1rem;
   border: none;
   background-color: #ef611e;
   color: #fff;
   padding: 1rem;
   font-size: 1rem;
   letter-spacing: 0.5px;
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   text-decoration: none;
 }
 
@@ -27,7 +28,7 @@ body {
 }
 
 .active::after {
-  content: "_";
+  content: '_';
   animation: cursor_blink 1s infinite;
 }
 
@@ -87,7 +88,7 @@ body {
 input {
   border: 1px solid white;
   background: transparent;
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   color: white;
   padding: 1rem 0.5rem;
 }
@@ -128,7 +129,7 @@ img {
 
 .snowman {
   width: 300px;
-  position: fixed;
+  position: sticky;
   right: 10px;
   bottom: 0;
 }

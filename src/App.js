@@ -2,10 +2,11 @@ import React, { createContext, useEffect } from "react";
 import Snowfall from "react-snowfall";
 import ChallengeList from "./ChallengeList";
 import Challenge from "./Challenge";
+import Solutions from './Solutions'
 import Home from "./Home";
 import { Router, Link } from "@reach/router";
 import Snow from "./SNEH.svg";
-import Snowman from "./snowman.svg";
+// import Snowman from "./snowman.svg";
 import firebase from "firebase/app";
 import "firebase/analytics";
 import moment from "moment";
@@ -33,6 +34,7 @@ const App = () => {
         </Link>
         <Router>
           <Home path="/" default />
+          <Solutions path="solutions" />
           <ChallengeList path="challenges" />
           <Challenge path="challenges/:id" />
         </Router>
@@ -47,7 +49,6 @@ const App = () => {
             left: "0px",
           }}
         />
-        <img src={Snowman} alt="snowman" className="snowman" />
       </div>
     </ChallengeContext.Provider>
   );
