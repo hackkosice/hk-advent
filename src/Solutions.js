@@ -29,7 +29,7 @@ const answers = [
   },
   {
     day: "05",
-    text: `<u>Answer is 67919.</u>`,
+    text: `The trickiest part of this problem is parsing the input. Let's have three classes for each form of writing IP addresses. Let each of those classes have methods low() and high() for finding the smallest and the biggest IP address it represents.<br />Sort the objects representing IP addresses from the input in descending order by the biggest address (high). Now iterate through the objects and keep track of the previous object and the current object. If the the biggest address of the current object is greater or equal to the smallest address of the previous address then we can join those in range. This also holds if the smallest address of the previous object is the very next address of the biggest address of the current object. Otherwise we have two distinct ranges.<br /><a target='_blank' href='https://gist.github.com/hruskraj/e1813a296b275f2a9810b0caa817ce22'>Here is a Python program which solves this problem</a>. The program uses special library called ipranges, which contains the classes with desired methods.<u>Answer is 67919.</u>`,
   },
   {
     day: "06",
@@ -37,7 +37,7 @@ const answers = [
   },
   {
     day: "07",
-    text: `<u>Answer is 8618702222.</u>`,
+    text: `Given an array of n integers a[1], a[2], ..., a[n], two elements a[i] and a[j] form an inversion if a[i] < a[j] and i > j. One swap decreases the total number of inversions by one, so the total number of required swaps to sort one array is equal to the total number of inversions in the given array. The final answer is the sum of the numbers of inversions of each permutation.<br />Inversions can by counted by a modification of Merge sort. During merge, there is a left part and a right part. If element from the right part of the array is selected, then it's bigger than all the elements of the left part, so they form inversions.<br /><a target='_blank' href='https://gist.github.com/hruskraj/2e16ca37b7e730343de17cd75e47290e'>Here is a program written in C++ which solves the problem</a>.<br /><u>Answer is 8618702222.</u>`,
   },
   {
     day: "08",
@@ -85,7 +85,7 @@ const answers = [
   },
   {
     day: "19",
-    text: `<u>Answer is 5.</u>`,
+    text: `<u>Answer is 5 as it's the only satisfying prime number.</u>`,
   },
   {
     day: "20",
@@ -108,11 +108,12 @@ const answers = [
     text: `This tough problem can be solved by hand, but it would be much more convenient to let the computer solve it. All you need to do is to loop through the expression and evaluate the inner parenthesis until there are none, then the same process with *, -, / and + operators. Probably the fastest solution is to use regular expressions to match sub-expressions, evaluate them recursively and return number. Demo solution written in JavaScript is <a target="_blank" href="https://repl.it/@DominikMatis/QuietLavenderIntegrationtesting#index.js">here</a>. <u>Solution is 176600.</u>`,
   },
 ];
+
 const Solutions = () => {
   const s = parseInt(window.innerWidth) > 500 ? "20rem 1fr" : "1fr";
-  console.log(s);
   return (
     <>
+      <p style={{textAlign: 'center'}}>If you are interested in solutions a bit more, don't hesitate to <a href="mailto:contact@hackkosice.com?subject=HK Advent Solutions&body=Hi I'd like to know more about solution ##. Can you please explain it?">write us</a>. &#x1F609;</p>
       <h1>Solutions</h1>
       {answers.map((x, i) => (
         <div
@@ -128,7 +129,7 @@ const Solutions = () => {
           >
             {x.day}
           </h1>
-          <p dangerouslySetInnerHTML={{ __html: x.text }} />
+          <p dangerouslySetInnerHTML={{ __html: x.text }} style={{lineHeight: '1.5rem', wordWrap: 'break-word'}} />
         </div>
       ))}
       <p style={{ paddingBottom: "20rem" }}></p>
