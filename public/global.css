@@ -1,0 +1,27 @@
+:root {
+	--hk: #5e2137;
+	--orange: #ef611e;
+	--white: #fff;
+}
+
+* {
+	box-sizing: border-box;
+	font-family: 'Press Start 2P', cursive;
+}
+
+html, body {
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+}
+
+body, main {
+	background-color: var(--hk);
+	color: var(--white);
+}
+
+a {
+	color: var(--orange);
+	text-decoration: none;
+}
