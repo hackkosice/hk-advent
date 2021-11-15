@@ -51,7 +51,9 @@ Start the server
 
 ## Deployment
 
-To deploy this project run
+GitHub Actions are set up to deploy after pushing to `main` and PR
+
+To deploy this project manually, run
 
 ```bash
   firebase login
