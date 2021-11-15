@@ -1,12 +1,19 @@
 <script>
 	import Countdown from "./components/Countdown.svelte";
+	import Grid from "./components/Grid.svelte";
+
+	let adventHasStarted = false;
 </script>
 
 <main>
 	<header>
 		<h1>&#x1F384; Hack Kosice &#x1F384;</h1>
 	</header>
-	<Countdown />
+	{#if adventHasStarted}
+		<Grid />
+	{:else}
+		<Countdown on:start|once={() => adventHasStarted = true} />
+	{/if}
 	<img alt="Snow" src="SNEH.svg">
 </main>
 

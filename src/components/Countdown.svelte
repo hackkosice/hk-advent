@@ -4,7 +4,9 @@
     import timezone from 'dayjs/plugin/timezone';
     import duration from 'dayjs/plugin/duration';
     import TypeIt from 'typeit';
-    import { onMount } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
+
+    const dispatch = createEventDispatcher();
 
     const renderWelcomeText = () => {
         new TypeIt("#title", {
@@ -37,6 +39,9 @@
 
     setInterval(() => {
         currentDate = dayjs();
+        if(currentDate.isAfter(adventStartDate)) {
+            dispatch('start');
+        }
     }, 1000);
 
     onMount(() => {
