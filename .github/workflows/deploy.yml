@@ -10,5 +10,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build
         run: npm i && npm run build
-      - name: Deploy
-        run: sudo npm i -g firebase-tools && firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+      - name:  Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
