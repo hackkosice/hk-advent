@@ -51,9 +51,9 @@ Start the server
 
 ## Deployment
 
-GitHub Actions are set up to deploy after pushing to `main` and PR
+GitHub Actions are set up to deploy after merge to `main` and push to `develop`
 
-To deploy this project manually, run
+To deploy production version of this project manually, run
 
 ```bash
   firebase login
@@ -61,6 +61,13 @@ To deploy this project manually, run
   firebase deploy
 ```
 
+To deploy develop version of this project manually, run
+
+```bash
+  firebase login
+  npm run build
+  firebase hosting:channel:deploy dev
+```
 
 ## FAQ
 
