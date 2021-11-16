@@ -17,9 +17,9 @@
 
 ## Tech Stack
 
-**Client:** Svelte
+**Client:** Svelte, Firebase Hosting, Bcrypt
 
-**Server:** N/A
+**Server:** Node.js, Express, JWT, SQLite3
 
 
 ## Run Locally

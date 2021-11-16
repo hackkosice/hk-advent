@@ -1,4 +1,4 @@
-const validLinks = ['/signup'];
+const validLinks = ['/signup', '/signin', '/'];
 
 const isAuthorized = (req, res, next) => {
     if(validLinks.includes(req.url)) return next();
