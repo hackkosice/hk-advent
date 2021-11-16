@@ -1,4 +1,4 @@
-const { isAuthorized } = require('../middleware/authorized');
+const { isAuthorized, isAdmin } = require('../middleware/authorized');
 const express = require('express');
 const errorHandler = require('../middleware/error');
 const router = express.Router();
@@ -9,6 +9,7 @@ let db = initDb();
 dbRun(db, 'CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL, admin INTEGER NOT NULL);');
 router.use(express.json());
 router.use(isAuthorized);
+router.use(isAdmin);
 
 router.get('/', (req, res) => {
     res.json({status: 'ok', version: require('../package.json').version});
