@@ -1,7 +1,7 @@
 <script>
     import { onMount, createEventDispatcher } from "svelte";
     let dispatch = createEventDispatcher();
-    let host = 'http://dev.hackkosice.com:9999';
+    let host = 'https://advent.hackkosice.com';
 
     $: users = [];
     const getUsers = async () => {

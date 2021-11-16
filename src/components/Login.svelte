@@ -4,7 +4,7 @@
     import { createEventDispatcher } from "svelte";
 
     let dispatch = createEventDispatcher();
-    let host = 'http://dev.hackkosice.com:9999';
+    let host = 'https://advent.hackkosice.com';
 
 
     let isSignup = false;
