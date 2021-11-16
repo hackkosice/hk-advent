@@ -4,6 +4,8 @@
     import { createEventDispatcher } from "svelte";
 
     let dispatch = createEventDispatcher();
+    let host = 'http://dev.hackkosice.com:9999';
+
 
     let isSignup = false;
     let isLoggedIn = Object.keys(window.localStorage).includes('token');
@@ -17,7 +19,7 @@
             return;
         }
 
-        fetch(`http://localhost:9876/api/${isSignup ? 'signup' : 'signin'}`, {
+        fetch(`${host}/api/${isSignup ? 'signup' : 'signin'}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

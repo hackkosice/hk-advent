@@ -13,6 +13,7 @@ const adminLinks = ['/makeAdmin/\d+', '/removeAdmin/\d+']
 const isAdmin = (req, res, next) => {
     if(!adminLinks.map(link => new RegExp(link)).some(link => req.url.match(link))) return next();
     const token = jwt.decode(req.headers.authorization.split("Bearer ")[1]);
+    console.log(token);
     next();
 }
 

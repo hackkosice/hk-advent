@@ -1,10 +1,11 @@
 <script>
     import { onMount, createEventDispatcher } from "svelte";
     let dispatch = createEventDispatcher();
+    let host = 'http://dev.hackkosice.com:9999';
 
     $: users = [];
     const getUsers = async () => {
-        const resp = await fetch('http://localhost:9876/api/users');
+        const resp = await fetch(`${host}/api/users`);
         const data = await resp.json();
         users = data.payload;
     }
@@ -15,7 +16,7 @@
     const handleClick = (e) => {
         const id = e.target.parentNode.children[0].textContent;
         const isAdmin = e.target.parentNode.children[2].textContent;
-        fetch(`http://localhost:9876/api/${isAdmin === 'false' ? 'makeAdmin' : 'removeAdmin'}/${id}`)
+        fetch(`${host}/api/${isAdmin === 'false' ? 'makeAdmin' : 'removeAdmin'}/${id}`)
         .then(() => getUsers());
     }
 

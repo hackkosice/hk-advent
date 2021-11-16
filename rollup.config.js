@@ -61,7 +61,8 @@ export default {
 			API_URL: 'http://localhost:9876',
 			process: JSON.stringify({
 				env: {
-					API_URL: 'http://localhost:9876'
+					// API_URL: 'http://localhost:9876'
+					API_URL: 'http://dev.hackkosice.com:9999'
 				}
 			})
 		}),

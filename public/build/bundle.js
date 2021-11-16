@@ -1585,7 +1585,7 @@ var app = (function () {
     const { Error: Error_1, Object: Object_1$1 } = globals;
     const file$2 = "src/components/Login.svelte";
 
-    // (58:4) {:else}
+    // (60:4) {:else}
     function create_else_block$1(ctx) {
     	let div;
     	let h1;
@@ -1634,29 +1634,29 @@ var app = (function () {
     			button = element("button");
     			t10 = text("Sign ");
     			t11 = text(t11_value);
-    			add_location(h1, file$2, 59, 12, 1897);
+    			add_location(h1, file$2, 61, 12, 1933);
     			attr_dev(label0, "for", "email");
-    			add_location(label0, file$2, 61, 16, 2021);
+    			add_location(label0, file$2, 63, 16, 2057);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "email");
     			attr_dev(input0, "class", "svelte-1emf631");
-    			add_location(input0, file$2, 62, 16, 2070);
+    			add_location(input0, file$2, 64, 16, 2106);
     			attr_dev(label1, "for", "password");
-    			add_location(label1, file$2, 63, 16, 2134);
+    			add_location(label1, file$2, 65, 16, 2170);
     			attr_dev(input1, "type", "password");
     			attr_dev(input1, "id", "password");
     			attr_dev(input1, "class", "svelte-1emf631");
-    			add_location(input1, file$2, 64, 16, 2189);
+    			add_location(input1, file$2, 66, 16, 2225);
     			attr_dev(input2, "type", "submit");
     			attr_dev(input2, "class", "svelte-1emf631");
-    			add_location(input2, file$2, 65, 16, 2263);
+    			add_location(input2, file$2, 67, 16, 2299);
     			attr_dev(form, "action", "");
     			attr_dev(form, "class", "svelte-1emf631");
-    			add_location(form, file$2, 60, 12, 1948);
+    			add_location(form, file$2, 62, 12, 1984);
     			attr_dev(button, "class", "svelte-1emf631");
-    			add_location(button, file$2, 67, 12, 2315);
+    			add_location(button, file$2, 69, 12, 2351);
     			attr_dev(div, "class", "svelte-1emf631");
-    			add_location(div, file$2, 58, 8, 1879);
+    			add_location(div, file$2, 60, 8, 1915);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1718,14 +1718,14 @@ var app = (function () {
     		block,
     		id: create_else_block$1.name,
     		type: "else",
-    		source: "(58:4) {:else}",
+    		source: "(60:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (52:4) {#if isLoggedIn}
+    // (54:4) {#if isLoggedIn}
     function create_if_block$1(ctx) {
     	let grid;
     	let t0;
@@ -1750,11 +1750,11 @@ var app = (function () {
     			p = element("p");
     			t3 = text(/*userEmail*/ ctx[4]);
     			attr_dev(button, "class", "svelte-1emf631");
-    			add_location(button, file$2, 54, 12, 1765);
-    			add_location(p, file$2, 55, 12, 1825);
+    			add_location(button, file$2, 56, 12, 1801);
+    			add_location(p, file$2, 57, 12, 1861);
     			attr_dev(div, "id", "logout");
     			attr_dev(div, "class", "svelte-1emf631");
-    			add_location(div, file$2, 53, 8, 1735);
+    			add_location(div, file$2, 55, 8, 1771);
     		},
     		m: function mount(target, anchor) {
     			mount_component(grid, target, anchor);
@@ -1796,7 +1796,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(52:4) {#if isLoggedIn}",
+    		source: "(54:4) {#if isLoggedIn}",
     		ctx
     	});
 
@@ -1824,7 +1824,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-1emf631");
-    			add_location(main, file$2, 50, 0, 1682);
+    			add_location(main, file$2, 52, 0, 1718);
     		},
     		l: function claim(nodes) {
     			throw new Error_1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1891,6 +1891,7 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Login', slots, []);
     	let dispatch = createEventDispatcher();
+    	let host = 'http://dev.hackkosice.com:9999';
     	let isSignup = false;
     	let isLoggedIn = Object.keys(window.localStorage).includes('token');
     	let email = "";
@@ -1906,7 +1907,7 @@ var app = (function () {
     			return;
     		}
 
-    		fetch(`http://localhost:9876/api/${isSignup ? 'signup' : 'signin'}`, {
+    		fetch(`${host}/api/${isSignup ? 'signup' : 'signin'}`, {
     			method: 'POST',
     			headers: { 'Content-Type': 'application/json' },
     			body: JSON.stringify({ email, password })
@@ -1955,6 +1956,7 @@ var app = (function () {
     		parseJwt,
     		createEventDispatcher,
     		dispatch,
+    		host,
     		isSignup,
     		isLoggedIn,
     		email,
@@ -1966,6 +1968,7 @@ var app = (function () {
 
     	$$self.$inject_state = $$props => {
     		if ('dispatch' in $$props) dispatch = $$props.dispatch;
+    		if ('host' in $$props) host = $$props.host;
     		if ('isSignup' in $$props) $$invalidate(0, isSignup = $$props.isSignup);
     		if ('isLoggedIn' in $$props) $$invalidate(1, isLoggedIn = $$props.isLoggedIn);
     		if ('email' in $$props) $$invalidate(2, email = $$props.email);
@@ -2010,23 +2013,23 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[5] = list[i];
+    	child_ctx[6] = list[i];
     	return child_ctx;
     }
 
-    // (41:20) {#each users as user}
+    // (42:20) {#each users as user}
     function create_each_block(ctx) {
     	let tr;
     	let td0;
-    	let t0_value = /*user*/ ctx[5].id + "";
+    	let t0_value = /*user*/ ctx[6].id + "";
     	let t0;
     	let t1;
     	let td1;
-    	let t2_value = /*user*/ ctx[5].email + "";
+    	let t2_value = /*user*/ ctx[6].email + "";
     	let t2;
     	let t3;
     	let td2;
-    	let t4_value = (/*user*/ ctx[5].admin === 1) + "";
+    	let t4_value = (/*user*/ ctx[6].admin === 1) + "";
     	let t4;
     	let t5;
     	let mounted;
@@ -2044,11 +2047,11 @@ var app = (function () {
     			td2 = element("td");
     			t4 = text(t4_value);
     			t5 = space();
-    			add_location(td0, file$1, 42, 28, 1260);
-    			add_location(td1, file$1, 43, 28, 1307);
-    			add_location(td2, file$1, 44, 28, 1357);
+    			add_location(td0, file$1, 43, 28, 1281);
+    			add_location(td1, file$1, 44, 28, 1328);
+    			add_location(td2, file$1, 45, 28, 1378);
     			attr_dev(tr, "class", "svelte-et6a1");
-    			add_location(tr, file$1, 41, 24, 1204);
+    			add_location(tr, file$1, 42, 24, 1225);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -2068,9 +2071,9 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*users*/ 1 && t0_value !== (t0_value = /*user*/ ctx[5].id + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*users*/ 1 && t2_value !== (t2_value = /*user*/ ctx[5].email + "")) set_data_dev(t2, t2_value);
-    			if (dirty & /*users*/ 1 && t4_value !== (t4_value = (/*user*/ ctx[5].admin === 1) + "")) set_data_dev(t4, t4_value);
+    			if (dirty & /*users*/ 1 && t0_value !== (t0_value = /*user*/ ctx[6].id + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*users*/ 1 && t2_value !== (t2_value = /*user*/ ctx[6].email + "")) set_data_dev(t2, t2_value);
+    			if (dirty & /*users*/ 1 && t4_value !== (t4_value = (/*user*/ ctx[6].admin === 1) + "")) set_data_dev(t4, t4_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(tr);
@@ -2083,7 +2086,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(41:20) {#each users as user}",
+    		source: "(42:20) {#each users as user}",
     		ctx
     	});
 
@@ -2157,24 +2160,24 @@ var app = (function () {
     			section1 = element("section");
     			h21 = element("h2");
     			h21.textContent = "Submit task";
-    			add_location(h1, file$1, 28, 4, 808);
+    			add_location(h1, file$1, 29, 4, 829);
     			attr_dev(button, "class", "svelte-et6a1");
-    			add_location(button, file$1, 29, 4, 833);
-    			add_location(h20, file$1, 32, 12, 921);
-    			add_location(th0, file$1, 35, 20, 1005);
-    			add_location(th1, file$1, 36, 20, 1037);
-    			add_location(th2, file$1, 37, 20, 1073);
-    			add_location(thead, file$1, 34, 16, 977);
-    			add_location(tbody, file$1, 39, 16, 1130);
-    			add_location(table, file$1, 33, 12, 953);
+    			add_location(button, file$1, 30, 4, 854);
+    			add_location(h20, file$1, 33, 12, 942);
+    			add_location(th0, file$1, 36, 20, 1026);
+    			add_location(th1, file$1, 37, 20, 1058);
+    			add_location(th2, file$1, 38, 20, 1094);
+    			add_location(thead, file$1, 35, 16, 998);
+    			add_location(tbody, file$1, 40, 16, 1151);
+    			add_location(table, file$1, 34, 12, 974);
     			attr_dev(section0, "class", "svelte-et6a1");
-    			add_location(section0, file$1, 31, 8, 899);
-    			add_location(h21, file$1, 51, 12, 1538);
+    			add_location(section0, file$1, 32, 8, 920);
+    			add_location(h21, file$1, 52, 12, 1559);
     			attr_dev(section1, "class", "svelte-et6a1");
-    			add_location(section1, file$1, 50, 8, 1516);
+    			add_location(section1, file$1, 51, 8, 1537);
     			attr_dev(div, "class", "svelte-et6a1");
-    			add_location(div, file$1, 30, 4, 885);
-    			add_location(main, file$1, 27, 0, 797);
+    			add_location(div, file$1, 31, 4, 906);
+    			add_location(main, file$1, 28, 0, 818);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2263,9 +2266,10 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('AdminPanel', slots, []);
     	let dispatch = createEventDispatcher();
+    	let host = 'http://dev.hackkosice.com:9999';
 
     	const getUsers = async () => {
-    		const resp = await fetch('http://localhost:9876/api/users');
+    		const resp = await fetch(`${host}/api/users`);
     		const data = await resp.json();
     		$$invalidate(0, users = data.payload);
     	};
@@ -2277,7 +2281,7 @@ var app = (function () {
     	const handleClick = e => {
     		const id = e.target.parentNode.children[0].textContent;
     		const isAdmin = e.target.parentNode.children[2].textContent;
-    		fetch(`http://localhost:9876/api/${isAdmin === 'false' ? 'makeAdmin' : 'removeAdmin'}/${id}`).then(() => getUsers());
+    		fetch(`${host}/api/${isAdmin === 'false' ? 'makeAdmin' : 'removeAdmin'}/${id}`).then(() => getUsers());
     	};
 
     	const handleLogout = () => {
@@ -2295,6 +2299,7 @@ var app = (function () {
     		onMount,
     		createEventDispatcher,
     		dispatch,
+    		host,
     		getUsers,
     		handleClick,
     		handleLogout,
@@ -2303,6 +2308,7 @@ var app = (function () {
 
     	$$self.$inject_state = $$props => {
     		if ('dispatch' in $$props) dispatch = $$props.dispatch;
+    		if ('host' in $$props) host = $$props.host;
     		if ('users' in $$props) $$invalidate(0, users = $$props.users);
     	};
 
