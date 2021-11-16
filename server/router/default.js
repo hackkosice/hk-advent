@@ -22,7 +22,7 @@ router.post('/signup', (req, res) => {
             if (Object.values(row)[0] > 0) {
                 res.status(400).json({status: 'error', payload: 'User with that e-mail already exists'});
             } else {
-                dbRun(`INSERT INTO users(email, password) VALUES ('${email}', '${password}')`, []);
+                dbRun(db,`INSERT INTO users(email, password) VALUES ('${email}', '${password}')`, []);
                 const token = generateToken(email);
                 res.json({status: 'ok', token});
             }

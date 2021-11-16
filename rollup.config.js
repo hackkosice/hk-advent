@@ -1,6 +1,7 @@
 import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
@@ -55,6 +56,14 @@ export default {
 		resolve({
 			browser: true,
 			dedupe: ['svelte']
+		}),
+		replace({
+			API_URL: 'http://localhost:9876',
+			process: JSON.stringify({
+				env: {
+					API_URL: 'http://localhost:9876'
+				}
+			})
 		}),
 		commonjs(),
 
