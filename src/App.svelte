@@ -3,6 +3,7 @@
 	import Grid from "./components/Grid.svelte";
 
 	let adventHasStarted = false;
+	console.log(window);
 </script>
 
 <main>
