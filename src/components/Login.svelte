@@ -1,13 +1,22 @@
 <script>
     import Grid from "./Grid.svelte";
+    import { parseJwt } from "../utils/utils";
+    import { createEventDispatcher } from "svelte";
 
-    let isSignup = true;
+    let dispatch = createEventDispatcher();
+
+    let isSignup = false;
     let isLoggedIn = Object.keys(window.localStorage).includes('token');
     let email = "";
     let password = "";
-    let userEmail = "";
+    let userEmail = Object.keys(window.localStorage).includes('token') ? parseJwt(window.localStorage.getItem('token')).email : '';
 
     const handleSubmit = (e) => {
+        if(email.length === 0 || password.length === 0) {
+            window.alert("Fields should not be empty");
+            return;
+        }
+
         fetch(`http://localhost:9876/api/${isSignup ? 'signup' : 'signin'}`, {
                 method: 'POST',
                 headers: {
@@ -18,8 +27,11 @@
             .then(data => {
                 if(data.status === 'ok') {
                     window.localStorage.setItem('token', data.token);
-                    userEmail = "tu bude mail";
+                    userEmail = parseJwt(data.token).email;
                     isLoggedIn = true;
+                    dispatch('login', {
+                        admin: parseJwt(data.token).isAdmin
+                    })
                     return;
                 } 
                 throw new Error(data.payload);
@@ -32,6 +44,7 @@
         window.localStorage.removeItem('token');
         isLoggedIn = false;
         userEmail = "";
+        dispatch('logout');
     }
 </script>
 
@@ -39,8 +52,8 @@
     {#if isLoggedIn}
         <Grid />
         <div id="logout">
-            <p>{userEmail}</p>
             <button on:click={handleLogout}>Logout</button>
+            <p>{userEmail}</p>
         </div>
     {:else}
         <div>
@@ -71,36 +84,40 @@ form {
     display: flex;
     flex-direction: column;    
 }
-input {
+input:not([type="submit"]) {
     margin: 1.5rem 0;
     height: 2rem;
     background: transparent;
     border: 2px solid #fff;
     color: #fff;
 }
-input[type="submit"], button {
-    background: #ef611e;
-    color: #fff;
-    border: none;
-    height: 3rem;
-    width: 70vw;
-}
+
 #logout {
     position: fixed;
     right: 1rem;
     top: 1rem;
-    height: 2rem;
     display: flex;
-    justify-content: end;
+    align-items: end;
+    flex-direction: column;
 }
 #logout > button {
     width: 10rem;
-    margin-left: 1rem;
+    height: 2rem;
 }
 
 @media (min-width: 900px) {
     div, input[type="submit"], button {
         width: 20vw;
+    }
+}
+
+@media (max-width: 500px) {
+    #logout {
+        top: 3rem;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        align-items: center;
     }
 }
 </style>

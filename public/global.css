@@ -25,3 +25,24 @@ a {
 	color: var(--orange);
 	text-decoration: none;
 }
+
+input[type="submit"] {
+	margin: 1.5rem 0;
+}
+
+input[type="submit"], button {
+    background: #ef611e;
+    color: #fff;
+    border: none;
+    height: 3rem;
+    width: 70vw;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+input[type="submit"]:hover, button:hover {
+    background: #fff;
+    color: #ef611e;
+    border: 3px solid #ef611e;
+    transform: translateY(5px);
+}
