@@ -1,11 +1,10 @@
 <script>
     import { onMount, createEventDispatcher } from "svelte";
     let dispatch = createEventDispatcher();
-    let host = 'https://advent.hackkosice.com';
 
     $: users = [];
     const getUsers = async () => {
-        const resp = await fetch(`${host}/api/users`);
+        const resp = await fetch(`${process.env.API_URL}/api/users`);
         const data = await resp.json();
         users = data.payload;
     }
@@ -16,7 +15,7 @@
     const handleClick = (e) => {
         const id = e.target.parentNode.children[0].textContent;
         const isAdmin = e.target.parentNode.children[2].textContent;
-        fetch(`${host}/api/${isAdmin === 'false' ? 'makeAdmin' : 'removeAdmin'}/${id}`)
+        fetch(`${process.env.API_URL}/api/${isAdmin === 'false' ? 'makeAdmin' : 'removeAdmin'}/${id}`)
         .then(() => getUsers());
     }
 
@@ -35,14 +34,14 @@
             <table>
                 <thead>
                     <th>ID</th>
-                    <th>E-mail</th>
+                    <th>Username</th>
                     <th>Admin?</th>
                 </thead>
                 <tbody>
                     {#each users as user}
                         <tr on:click={handleClick}>
                             <td>{user.id}</td>
-                            <td>{user.email}</td>
+                            <td>{user.username}</td>
                             <td>{user.admin === 1}</td>
                         </tr>
                     {/each}

@@ -58,13 +58,8 @@ export default {
 			dedupe: ['svelte']
 		}),
 		replace({
-			API_URL: 'http://localhost:9876',
-			process: JSON.stringify({
-				env: {
-					// API_URL: 'http://localhost:9876'
-					API_URL: 'http://dev.hackkosice.com:9999'
-				}
-			})
+			preventAssignment: true,
+			'process.env.API_URL': JSON.stringify('https://advent.hackkosice.com')
 		}),
 		commonjs(),
 

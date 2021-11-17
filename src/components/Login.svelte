@@ -4,32 +4,30 @@
     import { createEventDispatcher } from "svelte";
 
     let dispatch = createEventDispatcher();
-    let host = 'https://advent.hackkosice.com';
-
 
     let isSignup = false;
     let isLoggedIn = Object.keys(window.localStorage).includes('token');
-    let email = "";
+    let username = "";
     let password = "";
-    let userEmail = Object.keys(window.localStorage).includes('token') ? parseJwt(window.localStorage.getItem('token')).email : '';
+    let userUsername = Object.keys(window.localStorage).includes('token') ? parseJwt(window.localStorage.getItem('token')).username : '';
 
     const handleSubmit = (e) => {
-        if(email.length === 0 || password.length === 0) {
+        if(username.length === 0 || password.length === 0) {
             window.alert("Fields should not be empty");
             return;
         }
 
-        fetch(`${host}/api/${isSignup ? 'signup' : 'signin'}`, {
+        fetch(`${process.env.API_URL}/api/${isSignup ? 'signup' : 'signin'}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({email, password})
+                body: JSON.stringify({username, password})
             }).then(resp => resp.json())
             .then(data => {
                 if(data.status === 'ok') {
                     window.localStorage.setItem('token', data.token);
-                    userEmail = parseJwt(data.token).email;
+                    userUsername = parseJwt(data.token).username;
                     isLoggedIn = true;
                     dispatch('login', {
                         admin: parseJwt(data.token).isAdmin
@@ -45,7 +43,7 @@
     const handleLogout = () => {
         window.localStorage.removeItem('token');
         isLoggedIn = false;
-        userEmail = "";
+        userUsername = "";
         dispatch('logout');
     }
 </script>
@@ -55,14 +53,14 @@
         <Grid />
         <div id="logout">
             <button on:click={handleLogout}>Logout</button>
-            <p>{userEmail}</p>
+            <p>{userUsername}</p>
         </div>
     {:else}
         <div>
             <h1>Sign {isSignup ? 'up' : 'in'}</h1>
             <form action="" on:submit|preventDefault={handleSubmit}>
-                <label for="email">Email</label>
-                <input type=text id="email" bind:value={email}>
+                <label for="username">Username</label>
+                <input type=text id="username" bind:value={username}>
                 <label for="password">Password</label>
                 <input type=password id="password" bind:value={password}>
                 <input type=submit>
