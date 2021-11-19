@@ -5,9 +5,11 @@ const router = express.Router();
 const { generateToken } = require('../utils/utils');
 const { initDb, dbRun, dbGet, dbAll } = require('../utils/db');
 const bcrypt = require('bcrypt');
+const dayjs = require('dayjs');
 
 let db = initDb();
 dbRun(db, 'CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, admin INTEGER NOT NULL);');
+dbRun(db, 'CREATE TABLE IF NOT EXISTS tasks(id INTEGER PRIMARY KEY, day INTEGER NOT NULL UNIQUE, dateStart TEXT NOT NULL, title TEXT NOT NULL, text TEXT NOT NULL, answer TEXT NOT NULL);');
 router.use(express.json());
 router.use(isAuthorized);
 router.use(isAdmin);
@@ -103,6 +105,23 @@ router.get('/removeAdmin/:id', (req, res) => {
         throw e;
     }
 })
-router.use(errorHandler);
 
+router.post('/task/submit', (req, res) => {
+    const { day, title, text, answer } = req.body;
+    dbGet(db, 'SELECT count(*) FROM tasks WHERE day = ?', [day], (e, row) => {
+        if(e) throw e;
+        if(row) {
+            const dateStart = dayjs().month(11).date(day).format("YYYY-MM-DD");
+            if (Object.values(row)[0] > 0) {
+                dbRun(db, 'UPDATE tasks SET dateStart = ?, title = ?, text = ?, answer = ?) WHERE day = ?', [dateStart, title, text, answer, day]);
+                res.json({status: 'ok'});
+            } else {
+                dbRun(db, 'INSERT INTO tasks(day, dateStart, title, text, answer) VALUES (?, ?, ?, ?, ?)', [day, dateStart, title, text, answer]);
+                res.json({status: 'ok'});
+            }
+        }
+    })
+})
+
+router.use(errorHandler);
 module.exports = router;

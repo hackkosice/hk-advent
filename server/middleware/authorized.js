@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const validLinks = ['/signup', '/signin', '/', '/users', '/makeAdmin/\d+'];
+const validLinks = ['/signup', '/signin', '/', '/users', '/makeAdmin/\d+', '/task/submit'];
 
 const isAuthorized = (req, res, next) => {
     if(validLinks.map(link => new RegExp(link)).some(link => req.url.match(link))) return next();
