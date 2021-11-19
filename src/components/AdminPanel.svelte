@@ -96,7 +96,7 @@
                 <textarea id="text" bind:value={text}></textarea>
                 <label for="answer">Answer</label>
                 <input type=text id="answer" bind:value={answer}>
-                <input type=submit value="AHAha">
+                <input type=submit value="Submit">
             </form>
         </section>
     </div>
