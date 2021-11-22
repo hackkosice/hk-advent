@@ -23,6 +23,7 @@
   {/if}
   
   <img alt="Snow" src="SNEH.svg" />
+  <button class="feedback" title="Send a feedback"><a href="mailto:dmatis@hackkosice.com?subject=HK%20Advent%20Feedback">?</a></button>
 </main>
 
 <style>
@@ -34,9 +35,35 @@
     height: 100%;
     width: 100vw;
   }
+
+  .feedback {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 10;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+  }
+  .feedback a {
+    color: inherit;
+  }
   @media (max-width: 500px) {
     h1 {
       font-size: 1.4rem;
+    }
+
+    .feedback {
+      right: 0;
+      top: 10rem;
+      border-radius: 2rem 0 0 2rem;
+      height: 3rem;
+      width: 4rem;
+      font-size: 1rem;
     }
   }
   img {

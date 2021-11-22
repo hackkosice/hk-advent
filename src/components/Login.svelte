@@ -119,5 +119,10 @@ input:not([type="submit"]) {
         margin: 0 auto;
         align-items: center;
     }
+
+    main {
+        justify-content: flex-start;
+        margin-top: 5rem;
+    }
 }
 </style>
