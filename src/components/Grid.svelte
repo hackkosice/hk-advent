@@ -41,7 +41,7 @@
   
   @media (max-width: 500px) {
     main {
-      align-items: start;
+      align-items: flex-start;
     }
     #wrapper {
       grid-template-columns: repeat(3, 1fr);
