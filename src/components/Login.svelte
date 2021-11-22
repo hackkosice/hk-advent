@@ -63,7 +63,7 @@
                 <input type=text id="username" bind:value={username}>
                 <label for="password">Password</label>
                 <input type=password id="password" bind:value={password}>
-                <input type=submit>
+                <input type=submit value="Submit">
             </form>
             <button on:click={() => isSignup = !isSignup}>Sign {isSignup ? 'in' : 'up'}</button>
         </div>
