@@ -1,8 +1,8 @@
 <script>
   import { onMount, createEventDispatcher } from "svelte";
-  import { getUsers, makeAdmin, removeAdmin, submitTask } from "../utils/utils";
+  import { getTask, getUsers, makeAdmin, removeAdmin, submitTask } from "../utils/utils";
   const days = [...Array(24)].map((_, i) => i + 1);
-  let selectedDay;
+  let selectedDay = 0;
   let title = "";
   let text = "";
   let answer = "";
@@ -10,6 +10,17 @@
   let dispatch = createEventDispatcher();
 
   $: users = [];
+
+  $: {
+    getTask(selectedDay).then(data => {
+      if(data.payload.length) {
+        title = data.payload[0].title;
+        text = data.payload[0].text;
+        answer = data.payload[0].answer;
+        return;
+      }
+    });
+  }
 
   onMount(() => updateUsersList());
 
@@ -41,10 +52,6 @@
       .then((data) => {
         if (data.status === "ok") {
           window.alert("Task submitted successfully");
-          selectedDay = 0;
-          title = "";
-          text = "";
-          answer = "";
           return;
         }
         throw new Error(data.payload);

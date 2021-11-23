@@ -59,7 +59,8 @@ export default {
 		}),
 		replace({
 			preventAssignment: true,
-			'process.env.API_URL': JSON.stringify('https://advent.hackkosice.com')
+			// 'process.env.API_URL': JSON.stringify('https://advent.hackkosice.com')
+			'process.env.API_URL': JSON.stringify('http://localhost:9876')
 		}),
 		commonjs(),
 

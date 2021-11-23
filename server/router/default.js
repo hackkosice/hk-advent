@@ -74,7 +74,6 @@ router.post('/signin', (req, res) => {
 router.get('/users', (req, res) => {
     try {
         dbAll(db, 'SELECT id, username, admin FROM users', [], (e, rows) => {
-            console.log(rows);
             if(rows) {
                 res.json({status: 'ok', payload: rows});
                 return;
@@ -90,7 +89,6 @@ router.get('/users', (req, res) => {
 
 router.get('/makeAdmin/:id', (req, res) => {
     try {
-        console.log('som tu');
         dbRun(db, 'UPDATE users SET admin = 1 WHERE id = ?', [req.params.id]);
         res.json({status: 'ok'});
     } catch (e) {
@@ -100,7 +98,6 @@ router.get('/makeAdmin/:id', (req, res) => {
 
 router.get('/removeAdmin/:id', (req, res) => {
     try {
-        console.log('som tu');
         dbRun(db, 'UPDATE users SET admin = 0 WHERE id = ?', [req.params.id]);
         res.json({status: 'ok'});
     } catch (e) {
@@ -112,7 +109,6 @@ router.post('/task/submit', (req, res) => {
     const { day, title, text, answer } = req.body;
     dbGet(db, 'SELECT count(*) FROM tasks WHERE day = ?', [day], (e, row) => {
         if(e) {
-            console.log('uff');
             console.error(e.message);
             throw e;
         }
@@ -131,7 +127,6 @@ router.post('/task/submit', (req, res) => {
 
 router.get('/tasks', (req, res) => {
     const { username } = req.user;
-    console.log(username);
     dbAll(db, 'SELECT day, dateStart, title, text FROM tasks', [], (e, rows) => {
         dbAll(db, 'SELECT username, day FROM correctAnswers', [], (e2, rows2) => {
             if(rows) {
@@ -146,6 +141,18 @@ router.get('/tasks', (req, res) => {
             }
         })
     });
+});
+
+router.get('/task/:day', (req, res) => {
+    const day = req.params.day;
+    dbGet(db, 'SELECT title, text, answer FROM tasks WHERE day = ?', [day], (e, row) => {
+        if(e) throw e;
+        if(row) {
+            res.json({status: 'ok', payload: [row]});
+            return;
+        }
+        res.json({status: 'ok', payload: []});
+    })
 })
 
 router.post('/submission', (req, res) => {

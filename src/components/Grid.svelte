@@ -5,10 +5,7 @@ import { getTasks, makeSubmission } from "../utils/utils";
 
 
   let boxes = [];
-  let selected = "";
-  let testTitleString = "Carol of the bells";
-  let testTextString =
-    "<p>Again, this text should be longer, but <b>hello</b>On the next line will be image</p><img style='max-width:100%' src='https://unsplash.it/600/600'>";
+  let selected = -1;
   let value = "";
 
   const refreshBoxes = async () => {
@@ -38,21 +35,21 @@ import { getTasks, makeSubmission } from "../utils/utils";
 </script>
 
 <main>
-  {#if selected}
+  {#if selected > -1}
     <div class="task">
-      <h3>{boxes[selected - 1].title}</h3>
-      {@html boxes[selected - 1].text}
+      <h3>{boxes[selected].title}</h3>
+      {@html boxes[selected].text}
       <form on:submit|preventDefault={handleSubmit}>
         <input type="text" bind:value placeholder="Answer" />
         <input type="submit" value="Submit" />
       </form>
-      <button on:click={() => selected = ""}>Back</button>
+      <button on:click={() => selected = -1}>Back</button>
     </div>
   {:else}
     <div id="wrapper">
       {#each boxes as box, i}
-        <div class={box.done ? "box done" : "box"} data-day={box.day}>
-          <p on:click={() => selected = box.day}>{box.day}</p>
+        <div class={box.done ? "box done" : "box"} data-day={box.day} on:click={() => selected = i}>
+          <p>{box.day}</p>
         </div>
       {/each}
     </div>
@@ -74,6 +71,7 @@ import { getTasks, makeSubmission } from "../utils/utils";
     width: 100px;
     height: 100px;
     border: 2px solid #fff;
+    cursor: pointer;
   }
   .box > p {
     font-size: 2rem;
