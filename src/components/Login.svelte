@@ -44,82 +44,42 @@
 
 <main>
     {#if isLoggedIn}
-        <Grid />
-        <div id="logout">
+        <div class="logout">
             <button on:click={handleLogout}>Logout</button>
             <p>{userUsername}</p>
         </div>
+        <Grid />
     {:else}
-        <div>
-            <h1>Sign {isSignup ? 'up' : 'in'}</h1>
-            <form action="" on:submit|preventDefault={handleSubmit}>
-                <label for="username">Username</label>
-                <input type=text id="username" bind:value={username}>
-                <label for="password">Password</label>
-                <input type=password id="password" bind:value={password}>
-                <input type=submit value="Submit">
-            </form>
-            <button on:click={() => isSignup = !isSignup}>Sign {isSignup ? 'in' : 'up'}</button>
-        </div>
+        <h1>Sign {isSignup ? 'up' : 'in'}</h1>
+        <form action="" on:submit|preventDefault={handleSubmit}>
+            <label for="username">Username</label>
+            <input type=text id="username" bind:value={username}>
+            <label for="password">Password</label>
+            <input type=password id="password" bind:value={password}>
+            <input type=submit value="Submit">
+        </form>
+        <button on:click={() => isSignup = !isSignup}>Sign {isSignup ? 'in' : 'up'}</button>
     {/if}
 </main>
 
 <style>
 main {
+    width: 95%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 100vw;
-    overflow-x: hidden;
-    flex-wrap: wrap;
-}
-div {
-    width: 70vw;
+    gap: 1rem;
+    align-self: flex-start;
 }
 form {
     display: flex;
-    flex-direction: column;    
-}
-input:not([type="submit"]) {
-    margin: 1.5rem 0;
-    height: 2rem;
-    background: transparent;
-    border: 2px solid #fff;
-    color: #fff;
-}
-
-#logout {
-    position: fixed;
-    right: 1rem;
-    top: 1rem;
-    display: flex;
-    align-items: end;
     flex-direction: column;
+    gap: 1rem;
+    width: 100%;
 }
-#logout > button {
-    width: 10rem;
-    height: 2rem;
-}
-
-@media (min-width: 900px) {
-    div, input[type="submit"], button {
-        width: 20vw;
-    }
-}
-
-@media (max-width: 500px) {
-    #logout {
-        top: 3rem;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        align-items: center;
-    }
-
-    main {
-        justify-content: flex-start;
-        margin-top: 5rem;
-    }
+.logout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>

@@ -62,7 +62,7 @@
 <main>
   <h1>Admin panel</h1>
   <button on:click={handleLogout}>Logout</button>
-  <div>
+  <div class="wrapper">
     <section>
       <h2>Make admin</h2>
       <table>
@@ -106,6 +106,28 @@
 </main>
 
 <style>
+div > section:nth-child(1) {
+  display: none;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: start;
+  width: 95%;
+}
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.wrapper {
+  width: 100%;
+}
+</style>
+
+<!-- <style>
   div {
     display: flex;
     justify-content: space-evenly;
@@ -158,4 +180,4 @@
         width: 80vw;
     }
   }
-</style>
+</style> -->

@@ -69,14 +69,14 @@
 
 <style>
     main {
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        align-self: center;
     }
-	@media (max-width: 500px) {
-        h2 {
-            font-size: 1.25rem;
-        }
+    h2 {
+        font-size: 1.5rem;
     }
 </style>
