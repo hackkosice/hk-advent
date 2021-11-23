@@ -1,6 +1,6 @@
 <script>
     import Grid from "./Grid.svelte";
-    import { parseJwt } from "../utils/utils";
+    import { parseJwt, post } from "../utils/utils";
     import { createEventDispatcher } from "svelte";
 
     let dispatch = createEventDispatcher();
@@ -17,13 +17,7 @@
             return;
         }
 
-        fetch(`${process.env.API_URL}/api/${isSignup ? 'signup' : 'signin'}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({username, password})
-            }).then(resp => resp.json())
+        post(`${process.env.API_URL}/api/${isSignup ? 'signup' : 'signin'}`, {username, password})
             .then(data => {
                 if(data.status === 'ok') {
                     window.localStorage.setItem('token', data.token);
@@ -76,6 +70,9 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100vw;
+    overflow-x: hidden;
+    flex-wrap: wrap;
 }
 div {
     width: 70vw;

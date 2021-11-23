@@ -10,6 +10,8 @@ const dayjs = require('dayjs');
 let db = initDb();
 dbRun(db, 'CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, admin INTEGER NOT NULL);');
 dbRun(db, 'CREATE TABLE IF NOT EXISTS tasks(id INTEGER PRIMARY KEY, day INTEGER NOT NULL UNIQUE, dateStart TEXT NOT NULL, title TEXT NOT NULL, text TEXT NOT NULL, answer TEXT NOT NULL);');
+dbRun(db, 'CREATE TABLE IF NOT EXISTS submissions(id INTEGER PRIMARY KEY, username TEXT NOT NULL, day INTEGER NOT NULL, answer TEXT NOT NULL);');
+dbRun(db, 'CREATE TABLE IF NOT EXISTS correctAnswers(id INTEGER PRIMARY KEY, username TEXT NOT NULL, day INTEGER NOT NULL);');
 router.use(express.json());
 router.use(isAuthorized);
 router.use(isAdmin);
@@ -109,11 +111,15 @@ router.get('/removeAdmin/:id', (req, res) => {
 router.post('/task/submit', (req, res) => {
     const { day, title, text, answer } = req.body;
     dbGet(db, 'SELECT count(*) FROM tasks WHERE day = ?', [day], (e, row) => {
-        if(e) throw e;
+        if(e) {
+            console.log('uff');
+            console.error(e.message);
+            throw e;
+        }
         if(row) {
             const dateStart = dayjs().month(11).date(day).format("YYYY-MM-DD");
             if (Object.values(row)[0] > 0) {
-                dbRun(db, 'UPDATE tasks SET dateStart = ?, title = ?, text = ?, answer = ?) WHERE day = ?', [dateStart, title, text, answer, day]);
+                dbRun(db, 'UPDATE tasks SET dateStart = ?, title = ?, text = ?, answer = ? WHERE day = ?', [dateStart, title, text, answer, day]);
                 res.json({status: 'ok'});
             } else {
                 dbRun(db, 'INSERT INTO tasks(day, dateStart, title, text, answer) VALUES (?, ?, ?, ?, ?)', [day, dateStart, title, text, answer]);
@@ -121,7 +127,43 @@ router.post('/task/submit', (req, res) => {
             }
         }
     })
+});
+
+router.get('/tasks', (req, res) => {
+    const { username } = req.user;
+    console.log(username);
+    dbAll(db, 'SELECT day, dateStart, title, text FROM tasks', [], (e, rows) => {
+        dbAll(db, 'SELECT username, day FROM correctAnswers', [], (e2, rows2) => {
+            if(rows) {
+                // res.json({status: 'ok', payload: rows.filter(r => dayjs().isAfter(dayjs(r.dateStart)))
+                //     .map(row => ({...row, done: rows2.some(r => r.username === username && r.day === row.day)}))
+                //     .sort((a,b) => a.day - b.day)});
+                res.json({status: 'ok', payload: rows.map(row => ({...row, done: rows2.some(r => r.username === username && r.day === row.day)})).sort((a,b) => a.day - b.day)});
+                return;
+            }
+            if(e) {
+                throw e;
+            }
+        })
+    });
 })
+
+router.post('/submission', (req, res) => {
+    const { day, answer } = req.body;
+    const { username } = req.user;
+    dbRun(db, 'INSERT INTO submissions(username, day, answer) VALUES (?, ?, ?)', [username, day, answer]);
+    dbGet(db, 'SELECT answer FROM tasks WHERE day = ?', [day], (e, row) => {
+        if(e) throw e;
+        if(row) {
+            if(row.answer === answer) {
+                res.json({status: 'ok', payload: 'correct'});
+                dbRun(db, 'INSERT INTO correctAnswers(username, day) VALUES (?, ?)', [username, day]);
+            } else {
+                res.json({status: 'ok', payload: 'incorrect'});
+            }
+        }
+    })
+});
 
 router.use(errorHandler);
 module.exports = router;

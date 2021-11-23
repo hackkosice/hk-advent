@@ -1,5 +1,6 @@
 <script>
   import { onMount, createEventDispatcher } from "svelte";
+  import { getUsers, makeAdmin, removeAdmin, submitTask } from "../utils/utils";
   const days = [...Array(24)].map((_, i) => i + 1);
   let selectedDay;
   let title = "";
@@ -9,23 +10,21 @@
   let dispatch = createEventDispatcher();
 
   $: users = [];
-  const getUsers = async () => {
-    const resp = await fetch(`${process.env.API_URL}/api/users`);
-    const data = await resp.json();
-    users = data.payload;
-  };
-  onMount(() => {
-    getUsers();
-  });
+
+  onMount(() => updateUsersList());
+
+  const updateUsersList = async () => {
+    users = await getUsers();
+  }
 
   const handleClick = (e) => {
     const id = e.target.parentNode.children[0].textContent;
     const isAdmin = e.target.parentNode.children[2].textContent;
-    fetch(
-      `${process.env.API_URL}/api/${
-        isAdmin === "false" ? "makeAdmin" : "removeAdmin"
-      }/${id}`
-    ).then(() => getUsers());
+    if(isAdmin === "false") {
+      makeAdmin(id).then(() => updateUsersList());
+    } else {
+      removeAdmin(id).then(() => updateUsersList());
+    }
   };
 
   const handleLogout = () => {
@@ -38,14 +37,7 @@
       window.alert("Please fill all the information");
       return;
     }
-    fetch(`${process.env.API_URL}/api/task/submit`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ day: selectedDay, title, text, answer }),
-    })
-      .then((res) => res.json())
+    submitTask({ day: selectedDay, title, text, answer })
       .then((data) => {
         if (data.status === "ok") {
           window.alert("Task submitted successfully");

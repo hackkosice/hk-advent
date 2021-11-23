@@ -44,6 +44,9 @@ var app = (function () {
             fn.call(this, ...args);
         };
     }
+    function null_to_empty(value) {
+        return value == null ? '' : value;
+    }
     function append(target, node) {
         target.appendChild(node);
     }
@@ -112,6 +115,39 @@ var app = (function () {
         const e = document.createEvent('CustomEvent');
         e.initCustomEvent(type, bubbles, false, detail);
         return e;
+    }
+    class HtmlTag {
+        constructor() {
+            this.e = this.n = null;
+        }
+        c(html) {
+            this.h(html);
+        }
+        m(html, target, anchor = null) {
+            if (!this.e) {
+                this.e = element(target.nodeName);
+                this.t = target;
+                this.c(html);
+            }
+            this.i(anchor);
+        }
+        h(html) {
+            this.e.innerHTML = html;
+            this.n = Array.from(this.e.childNodes);
+        }
+        i(anchor) {
+            for (let i = 0; i < this.n.length; i += 1) {
+                insert(this.t, this.n[i], anchor);
+            }
+        }
+        p(html) {
+            this.d();
+            this.h(html);
+            this.i(this.a);
+        }
+        d() {
+            this.n.forEach(detach);
+        }
     }
 
     let current_component;
@@ -1153,12 +1189,12 @@ var app = (function () {
     const file$4 = "src/components/Countdown.svelte";
 
     // (57:0) {#if currentDate.isBefore(adventStartDate)}
-    function create_if_block$2(ctx) {
+    function create_if_block$3(ctx) {
     	let if_block_anchor;
 
     	function select_block_type(ctx, dirty) {
     		if (!/*textRendered*/ ctx[1]) return create_if_block_1$1;
-    		return create_else_block$2;
+    		return create_else_block$3;
     	}
 
     	let current_block_type = select_block_type(ctx);
@@ -1194,7 +1230,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$2.name,
+    		id: create_if_block$3.name,
     		type: "if",
     		source: "(57:0) {#if currentDate.isBefore(adventStartDate)}",
     		ctx
@@ -1204,7 +1240,7 @@ var app = (function () {
     }
 
     // (62:4) {:else}
-    function create_else_block$2(ctx) {
+    function create_else_block$3(ctx) {
     	let main;
     	let p;
     	let t1;
@@ -1242,7 +1278,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_else_block$2.name,
+    		id: create_else_block$3.name,
     		type: "else",
     		source: "(62:4) {:else}",
     		ctx
@@ -1289,7 +1325,7 @@ var app = (function () {
     function create_fragment$4(ctx) {
     	let show_if = /*currentDate*/ ctx[0].isBefore(/*adventStartDate*/ ctx[3]);
     	let if_block_anchor;
-    	let if_block = show_if && create_if_block$2(ctx);
+    	let if_block = show_if && create_if_block$3(ctx);
 
     	const block = {
     		c: function create() {
@@ -1310,7 +1346,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$2(ctx);
+    					if_block = create_if_block$3(ctx);
     					if_block.c();
     					if_block.m(if_block_anchor.parentNode, if_block_anchor);
     				}
@@ -1437,61 +1473,106 @@ var app = (function () {
     	}
     }
 
+    const parseJwt = (token) => {
+      var base64Url = token.split(".")[1];
+      var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      var jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+
+      return JSON.parse(jsonPayload);
+    };
+
+    const get = async (url, token = "") => {
+      const resp = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await resp.json();
+      return data;
+    };
+
+    const post = async (url, body = {}, token = "") => {
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      const data = await resp.json();
+      return data;
+    };
+
+    const getUsers = async () => {
+      const data = await get(`${"http://localhost:9876"}/api/users`);
+      return data.payload;
+    };
+
+    const makeAdmin = async (id) => {
+      const data = await get(
+        `${"http://localhost:9876"}/api/makeAdmin/${id}`,
+        window.localStorage.getItem("token")
+      );
+      return data;
+    };
+
+    const removeAdmin = async (id) => {
+      const data = await get(
+        `${"http://localhost:9876"}/api/removeAdmin/${id}`,
+        window.localStorage.getItem("token")
+      );
+      return data;
+    };
+
+    const submitTask = async (body) => {
+      const data = await post(
+        `${"http://localhost:9876"}/api/task/submit`,
+        body,
+        window.localStorage.getItem("token")
+      );
+      return data;
+    };
+
+    const getTasks = async () => {
+      const data = await get(
+        `${"http://localhost:9876"}/api/tasks`,
+        window.localStorage.getItem("token")
+      );
+      return data;
+    };
+
+    const makeSubmission = async (body) => {
+      const data = await post(
+        `${"http://localhost:9876"}/api/submission`,
+        body,
+        window.localStorage.getItem("token")
+      );
+      return data;
+    };
+
     /* src/components/Grid.svelte generated by Svelte v3.44.1 */
 
+    const { console: console_1 } = globals;
     const file$3 = "src/components/Grid.svelte";
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[1] = list[i];
-    	child_ctx[3] = i;
+    	child_ctx[10] = list[i];
+    	child_ctx[12] = i;
     	return child_ctx;
     }
 
-    // (7:4) {#each boxes as box,i}
-    function create_each_block$1(ctx) {
-    	let div;
-    	let p;
-    	let t0_value = /*i*/ ctx[3] + 1 + "";
-    	let t0;
-    	let t1;
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-    			p = element("p");
-    			t0 = text(t0_value);
-    			t1 = space();
-    			attr_dev(p, "class", "svelte-1cbdp1");
-    			add_location(p, file$3, 8, 10, 152);
-    			attr_dev(div, "class", "box disabled svelte-1cbdp1");
-    			add_location(div, file$3, 7, 6, 115);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, p);
-    			append_dev(p, t0);
-    			append_dev(div, t1);
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block$1.name,
-    		type: "each",
-    		source: "(7:4) {#each boxes as box,i}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    function create_fragment$3(ctx) {
-    	let main;
+    // (51:2) {:else}
+    function create_else_block$2(ctx) {
     	let div;
     	let each_value = /*boxes*/ ctx[0];
     	validate_each_argument(each_value);
@@ -1503,7 +1584,6 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			main = element("main");
     			div = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -1511,28 +1591,271 @@ var app = (function () {
     			}
 
     			attr_dev(div, "id", "wrapper");
-    			attr_dev(div, "class", "svelte-1cbdp1");
-    			add_location(div, file$3, 5, 2, 63);
-    			attr_dev(main, "class", "svelte-1cbdp1");
-    			add_location(main, file$3, 4, 0, 54);
+    			attr_dev(div, "class", "svelte-1ss4s81");
+    			add_location(div, file$3, 51, 4, 1337);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div, null);
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*boxes, selected*/ 3) {
+    				each_value = /*boxes*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$1(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block$2.name,
+    		type: "else",
+    		source: "(51:2) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (41:2) {#if selected}
+    function create_if_block$2(ctx) {
+    	let div;
+    	let h3;
+    	let t0_value = /*boxes*/ ctx[0][/*selected*/ ctx[1] - 1].title + "";
+    	let t0;
+    	let t1;
+    	let html_tag;
+    	let raw_value = /*boxes*/ ctx[0][/*selected*/ ctx[1] - 1].text + "";
+    	let t2;
+    	let form;
+    	let input0;
+    	let t3;
+    	let input1;
+    	let t4;
+    	let button;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			h3 = element("h3");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			html_tag = new HtmlTag();
+    			t2 = space();
+    			form = element("form");
+    			input0 = element("input");
+    			t3 = space();
+    			input1 = element("input");
+    			t4 = space();
+    			button = element("button");
+    			button.textContent = "Back";
+    			add_location(h3, file$3, 42, 6, 1001);
+    			html_tag.a = t2;
+    			attr_dev(input0, "type", "text");
+    			attr_dev(input0, "placeholder", "Answer");
+    			attr_dev(input0, "class", "svelte-1ss4s81");
+    			add_location(input0, file$3, 45, 8, 1138);
+    			attr_dev(input1, "type", "submit");
+    			input1.value = "Submit";
+    			attr_dev(input1, "class", "svelte-1ss4s81");
+    			add_location(input1, file$3, 46, 8, 1200);
+    			add_location(form, file$3, 44, 6, 1083);
+    			attr_dev(button, "class", "svelte-1ss4s81");
+    			add_location(button, file$3, 48, 6, 1259);
+    			attr_dev(div, "class", "task svelte-1ss4s81");
+    			add_location(div, file$3, 41, 4, 976);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			append_dev(div, h3);
+    			append_dev(h3, t0);
+    			append_dev(div, t1);
+    			html_tag.m(raw_value, div);
+    			append_dev(div, t2);
+    			append_dev(div, form);
+    			append_dev(form, input0);
+    			set_input_value(input0, /*value*/ ctx[2]);
+    			append_dev(form, t3);
+    			append_dev(form, input1);
+    			append_dev(div, t4);
+    			append_dev(div, button);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[4]),
+    					listen_dev(form, "submit", prevent_default(/*handleSubmit*/ ctx[3]), false, true, false),
+    					listen_dev(button, "click", /*click_handler*/ ctx[5], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*boxes, selected*/ 3 && t0_value !== (t0_value = /*boxes*/ ctx[0][/*selected*/ ctx[1] - 1].title + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*boxes, selected*/ 3 && raw_value !== (raw_value = /*boxes*/ ctx[0][/*selected*/ ctx[1] - 1].text + "")) html_tag.p(raw_value);
+
+    			if (dirty & /*value*/ 4 && input0.value !== /*value*/ ctx[2]) {
+    				set_input_value(input0, /*value*/ ctx[2]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$2.name,
+    		type: "if",
+    		source: "(41:2) {#if selected}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (53:6) {#each boxes as box, i}
+    function create_each_block$1(ctx) {
+    	let div;
+    	let p;
+    	let t0_value = /*box*/ ctx[10].day + "";
+    	let t0;
+    	let t1;
+    	let div_class_value;
+    	let div_data_day_value;
+    	let mounted;
+    	let dispose;
+
+    	function click_handler_1() {
+    		return /*click_handler_1*/ ctx[6](/*box*/ ctx[10]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			p = element("p");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			attr_dev(p, "class", "svelte-1ss4s81");
+    			add_location(p, file$3, 54, 10, 1467);
+    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*box*/ ctx[10].done ? "box done" : "box") + " svelte-1ss4s81"));
+    			attr_dev(div, "data-day", div_data_day_value = /*box*/ ctx[10].day);
+    			add_location(div, file$3, 53, 8, 1394);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			append_dev(div, p);
+    			append_dev(p, t0);
+    			append_dev(div, t1);
+
+    			if (!mounted) {
+    				dispose = listen_dev(p, "click", click_handler_1, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			if (dirty & /*boxes*/ 1 && t0_value !== (t0_value = /*box*/ ctx[10].day + "")) set_data_dev(t0, t0_value);
+
+    			if (dirty & /*boxes*/ 1 && div_class_value !== (div_class_value = "" + (null_to_empty(/*box*/ ctx[10].done ? "box done" : "box") + " svelte-1ss4s81"))) {
+    				attr_dev(div, "class", div_class_value);
+    			}
+
+    			if (dirty & /*boxes*/ 1 && div_data_day_value !== (div_data_day_value = /*box*/ ctx[10].day)) {
+    				attr_dev(div, "data-day", div_data_day_value);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$1.name,
+    		type: "each",
+    		source: "(53:6) {#each boxes as box, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$3(ctx) {
+    	let main;
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*selected*/ ctx[1]) return create_if_block$2;
+    		return create_else_block$2;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block = current_block_type(ctx);
+
+    	const block = {
+    		c: function create() {
+    			main = element("main");
+    			if_block.c();
+    			attr_dev(main, "class", "svelte-1ss4s81");
+    			add_location(main, file$3, 39, 0, 948);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, main, anchor);
-    			append_dev(main, div);
+    			if_block.m(main, null);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+    				if_block.p(ctx, dirty);
+    			} else {
+    				if_block.d(1);
+    				if_block = current_block_type(ctx);
 
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div, null);
+    				if (if_block) {
+    					if_block.c();
+    					if_block.m(main, null);
+    				}
     			}
     		},
-    		p: noop,
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
-    			destroy_each(each_blocks, detaching);
+    			if_block.d();
     		}
     	};
 
@@ -1550,24 +1873,87 @@ var app = (function () {
     function instance$3($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Grid', slots, []);
-    	let boxes = Array(24).fill({});
+    	let boxes = [];
+    	let selected = "";
+    	let testTitleString = "Carol of the bells";
+    	let testTextString = "<p>Again, this text should be longer, but <b>hello</b>On the next line will be image</p><img style='max-width:100%' src='https://unsplash.it/600/600'>";
+    	let value = "";
+
+    	const refreshBoxes = async () => {
+    		const data = await getTasks();
+    		$$invalidate(0, boxes = data.payload);
+    	};
+
+    	onMount(() => refreshBoxes());
+
+    	const handleSubmit = () => {
+    		console.log(value);
+
+    		if (value.length === 0) {
+    			window.alert('Answer cannot be empty');
+    			return;
+    		}
+
+    		makeSubmission({ day: selected, answer: value }).then(data => {
+    			if (data.payload === 'correct') {
+    				$$invalidate(1, selected = "");
+    				refreshBoxes();
+    				return;
+    			}
+
+    			window.alert(`Answer is ${data.payload}`);
+    			$$invalidate(2, value = "");
+    		});
+    	};
+
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Grid> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<Grid> was created with unknown prop '${key}'`);
     	});
 
-    	$$self.$capture_state = () => ({ boxes });
+    	function input0_input_handler() {
+    		value = this.value;
+    		$$invalidate(2, value);
+    	}
+
+    	const click_handler = () => $$invalidate(1, selected = "");
+    	const click_handler_1 = box => $$invalidate(1, selected = box.day);
+
+    	$$self.$capture_state = () => ({
+    		onMount,
+    		getTasks,
+    		makeSubmission,
+    		boxes,
+    		selected,
+    		testTitleString,
+    		testTextString,
+    		value,
+    		refreshBoxes,
+    		handleSubmit
+    	});
 
     	$$self.$inject_state = $$props => {
     		if ('boxes' in $$props) $$invalidate(0, boxes = $$props.boxes);
+    		if ('selected' in $$props) $$invalidate(1, selected = $$props.selected);
+    		if ('testTitleString' in $$props) testTitleString = $$props.testTitleString;
+    		if ('testTextString' in $$props) testTextString = $$props.testTextString;
+    		if ('value' in $$props) $$invalidate(2, value = $$props.value);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [boxes];
+    	return [
+    		boxes,
+    		selected,
+    		value,
+    		handleSubmit,
+    		input0_input_handler,
+    		click_handler,
+    		click_handler_1
+    	];
     }
 
     class Grid extends SvelteComponentDev {
@@ -1584,22 +1970,12 @@ var app = (function () {
     	}
     }
 
-    const parseJwt = (token) => {
-        var base64Url = token.split('.')[1];
-        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-
-        return JSON.parse(jsonPayload);
-    };
-
     /* src/components/Login.svelte generated by Svelte v3.44.1 */
 
     const { Error: Error_1$1, Object: Object_1$1 } = globals;
     const file$2 = "src/components/Login.svelte";
 
-    // (58:4) {:else}
+    // (52:4) {:else}
     function create_else_block$1(ctx) {
     	let div;
     	let h1;
@@ -1648,29 +2024,30 @@ var app = (function () {
     			button = element("button");
     			t10 = text("Sign ");
     			t11 = text(t11_value);
-    			add_location(h1, file$2, 59, 12, 1925);
+    			add_location(h1, file$2, 53, 12, 1717);
     			attr_dev(label0, "for", "username");
-    			add_location(label0, file$2, 61, 16, 2049);
+    			add_location(label0, file$2, 55, 16, 1841);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "username");
-    			attr_dev(input0, "class", "svelte-18buqjd");
-    			add_location(input0, file$2, 62, 16, 2104);
+    			attr_dev(input0, "class", "svelte-a78kkn");
+    			add_location(input0, file$2, 56, 16, 1896);
     			attr_dev(label1, "for", "password");
-    			add_location(label1, file$2, 63, 16, 2174);
+    			add_location(label1, file$2, 57, 16, 1966);
     			attr_dev(input1, "type", "password");
     			attr_dev(input1, "id", "password");
-    			attr_dev(input1, "class", "svelte-18buqjd");
-    			add_location(input1, file$2, 64, 16, 2229);
+    			attr_dev(input1, "class", "svelte-a78kkn");
+    			add_location(input1, file$2, 58, 16, 2021);
     			attr_dev(input2, "type", "submit");
-    			attr_dev(input2, "class", "svelte-18buqjd");
-    			add_location(input2, file$2, 65, 16, 2303);
+    			input2.value = "Submit";
+    			attr_dev(input2, "class", "svelte-a78kkn");
+    			add_location(input2, file$2, 59, 16, 2095);
     			attr_dev(form, "action", "");
-    			attr_dev(form, "class", "svelte-18buqjd");
-    			add_location(form, file$2, 60, 12, 1976);
-    			attr_dev(button, "class", "svelte-18buqjd");
-    			add_location(button, file$2, 67, 12, 2355);
-    			attr_dev(div, "class", "svelte-18buqjd");
-    			add_location(div, file$2, 58, 8, 1907);
+    			attr_dev(form, "class", "svelte-a78kkn");
+    			add_location(form, file$2, 54, 12, 1768);
+    			attr_dev(button, "class", "svelte-a78kkn");
+    			add_location(button, file$2, 61, 12, 2162);
+    			attr_dev(div, "class", "svelte-a78kkn");
+    			add_location(div, file$2, 52, 8, 1699);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1732,14 +2109,14 @@ var app = (function () {
     		block,
     		id: create_else_block$1.name,
     		type: "else",
-    		source: "(58:4) {:else}",
+    		source: "(52:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (52:4) {#if isLoggedIn}
+    // (46:4) {#if isLoggedIn}
     function create_if_block$1(ctx) {
     	let grid;
     	let t0;
@@ -1763,12 +2140,12 @@ var app = (function () {
     			t2 = space();
     			p = element("p");
     			t3 = text(/*userUsername*/ ctx[4]);
-    			attr_dev(button, "class", "svelte-18buqjd");
-    			add_location(button, file$2, 54, 12, 1790);
-    			add_location(p, file$2, 55, 12, 1850);
+    			attr_dev(button, "class", "svelte-a78kkn");
+    			add_location(button, file$2, 48, 12, 1582);
+    			add_location(p, file$2, 49, 12, 1642);
     			attr_dev(div, "id", "logout");
-    			attr_dev(div, "class", "svelte-18buqjd");
-    			add_location(div, file$2, 53, 8, 1760);
+    			attr_dev(div, "class", "svelte-a78kkn");
+    			add_location(div, file$2, 47, 8, 1552);
     		},
     		m: function mount(target, anchor) {
     			mount_component(grid, target, anchor);
@@ -1810,7 +2187,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(52:4) {#if isLoggedIn}",
+    		source: "(46:4) {#if isLoggedIn}",
     		ctx
     	});
 
@@ -1837,8 +2214,8 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			if_block.c();
-    			attr_dev(main, "class", "svelte-18buqjd");
-    			add_location(main, file$2, 50, 0, 1707);
+    			attr_dev(main, "class", "svelte-a78kkn");
+    			add_location(main, file$2, 44, 0, 1499);
     		},
     		l: function claim(nodes) {
     			throw new Error_1$1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1920,11 +2297,7 @@ var app = (function () {
     			return;
     		}
 
-    		fetch(`${"https://advent.hackkosice.com"}/api/${isSignup ? 'signup' : 'signin'}`, {
-    			method: 'POST',
-    			headers: { 'Content-Type': 'application/json' },
-    			body: JSON.stringify({ username, password })
-    		}).then(resp => resp.json()).then(data => {
+    		post(`${"http://localhost:9876"}/api/${isSignup ? 'signup' : 'signin'}`, { username, password }).then(data => {
     			if (data.status === 'ok') {
     				window.localStorage.setItem('token', data.token);
     				$$invalidate(4, userUsername = parseJwt(data.token).username);
@@ -1967,6 +2340,7 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		Grid,
     		parseJwt,
+    		post,
     		createEventDispatcher,
     		dispatch,
     		isSignup,
@@ -2036,7 +2410,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (76:10) {#each users as user}
+    // (68:10) {#each users as user}
     function create_each_block_1(ctx) {
     	let tr;
     	let td0;
@@ -2066,11 +2440,11 @@ var app = (function () {
     			td2 = element("td");
     			t4 = text(t4_value);
     			t5 = space();
-    			add_location(td0, file$1, 77, 14, 1975);
-    			add_location(td1, file$1, 78, 14, 2008);
-    			add_location(td2, file$1, 79, 14, 2047);
+    			add_location(td0, file$1, 69, 14, 1765);
+    			add_location(td1, file$1, 70, 14, 1798);
+    			add_location(td2, file$1, 71, 14, 1837);
     			attr_dev(tr, "class", "svelte-1ym9xpj");
-    			add_location(tr, file$1, 76, 12, 1933);
+    			add_location(tr, file$1, 68, 12, 1723);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -2105,14 +2479,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(76:10) {#each users as user}",
+    		source: "(68:10) {#each users as user}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (91:10) {#each days as day}
+    // (83:10) {#each days as day}
     function create_each_block(ctx) {
     	let option;
     	let t0_value = /*day*/ ctx[15] + "";
@@ -2126,7 +2500,7 @@ var app = (function () {
     			t1 = space();
     			option.__value = /*day*/ ctx[15];
     			option.value = option.__value;
-    			add_location(option, file$1, 91, 12, 2382);
+    			add_location(option, file$1, 83, 12, 2172);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -2143,7 +2517,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(91:10) {#each days as day}",
+    		source: "(83:10) {#each days as day}",
     		ctx
     	});
 
@@ -2272,57 +2646,57 @@ var app = (function () {
     			input1 = element("input");
     			t26 = space();
     			input2 = element("input");
-    			add_location(h1, file$1, 63, 2, 1631);
+    			add_location(h1, file$1, 55, 2, 1421);
     			attr_dev(button, "class", "svelte-1ym9xpj");
-    			add_location(button, file$1, 64, 2, 1654);
-    			add_location(h20, file$1, 67, 6, 1730);
-    			add_location(th0, file$1, 70, 10, 1790);
-    			add_location(th1, file$1, 71, 10, 1812);
-    			add_location(th2, file$1, 72, 10, 1840);
-    			add_location(thead, file$1, 69, 8, 1772);
-    			add_location(tbody, file$1, 74, 8, 1881);
-    			add_location(table, file$1, 68, 6, 1756);
+    			add_location(button, file$1, 56, 2, 1444);
+    			add_location(h20, file$1, 59, 6, 1520);
+    			add_location(th0, file$1, 62, 10, 1580);
+    			add_location(th1, file$1, 63, 10, 1602);
+    			add_location(th2, file$1, 64, 10, 1630);
+    			add_location(thead, file$1, 61, 8, 1562);
+    			add_location(tbody, file$1, 66, 8, 1671);
+    			add_location(table, file$1, 60, 6, 1546);
     			attr_dev(section0, "class", "svelte-1ym9xpj");
-    			add_location(section0, file$1, 66, 4, 1714);
-    			add_location(h21, file$1, 86, 6, 2178);
+    			add_location(section0, file$1, 58, 4, 1504);
+    			add_location(h21, file$1, 78, 6, 1968);
     			attr_dev(label0, "for", "day");
     			attr_dev(label0, "class", "svelte-1ym9xpj");
-    			add_location(label0, file$1, 88, 8, 2260);
+    			add_location(label0, file$1, 80, 8, 2050);
     			attr_dev(select, "id", "day");
     			attr_dev(select, "class", "svelte-1ym9xpj");
     			if (/*selectedDay*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[9].call(select));
-    			add_location(select, file$1, 89, 8, 2297);
+    			add_location(select, file$1, 81, 8, 2087);
     			attr_dev(label1, "for", "title");
     			attr_dev(label1, "class", "svelte-1ym9xpj");
-    			add_location(label1, file$1, 96, 8, 2489);
+    			add_location(label1, file$1, 88, 8, 2279);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "title");
     			attr_dev(input0, "class", "svelte-1ym9xpj");
-    			add_location(input0, file$1, 97, 8, 2530);
+    			add_location(input0, file$1, 89, 8, 2320);
     			attr_dev(label2, "for", "text");
     			attr_dev(label2, "class", "svelte-1ym9xpj");
-    			add_location(label2, file$1, 98, 8, 2590);
+    			add_location(label2, file$1, 90, 8, 2380);
     			attr_dev(textarea, "id", "text");
     			attr_dev(textarea, "class", "svelte-1ym9xpj");
-    			add_location(textarea, file$1, 99, 8, 2629);
+    			add_location(textarea, file$1, 91, 8, 2419);
     			attr_dev(label3, "for", "answer");
     			attr_dev(label3, "class", "svelte-1ym9xpj");
-    			add_location(label3, file$1, 100, 8, 2678);
+    			add_location(label3, file$1, 92, 8, 2468);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "answer");
     			attr_dev(input1, "class", "svelte-1ym9xpj");
-    			add_location(input1, file$1, 101, 8, 2721);
+    			add_location(input1, file$1, 93, 8, 2511);
     			attr_dev(input2, "type", "submit");
     			input2.value = "Submit";
     			attr_dev(input2, "class", "svelte-1ym9xpj");
-    			add_location(input2, file$1, 102, 8, 2783);
+    			add_location(input2, file$1, 94, 8, 2573);
     			attr_dev(form, "class", "svelte-1ym9xpj");
-    			add_location(form, file$1, 87, 6, 2205);
+    			add_location(form, file$1, 79, 6, 1995);
     			attr_dev(section1, "class", "svelte-1ym9xpj");
-    			add_location(section1, file$1, 85, 4, 2162);
+    			add_location(section1, file$1, 77, 4, 1952);
     			attr_dev(div, "class", "svelte-1ym9xpj");
-    			add_location(div, file$1, 65, 2, 1704);
-    			add_location(main, file$1, 62, 0, 1622);
+    			add_location(div, file$1, 57, 2, 1494);
+    			add_location(main, file$1, 54, 0, 1412);
     		},
     		l: function claim(nodes) {
     			throw new Error_1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2493,21 +2867,21 @@ var app = (function () {
     	let text = "";
     	let answer = "";
     	let dispatch = createEventDispatcher();
+    	onMount(() => updateUsersList());
 
-    	const getUsers = async () => {
-    		const resp = await fetch(`${"https://advent.hackkosice.com"}/api/users`);
-    		const data = await resp.json();
-    		$$invalidate(4, users = data.payload);
+    	const updateUsersList = async () => {
+    		$$invalidate(4, users = await getUsers());
     	};
-
-    	onMount(() => {
-    		getUsers();
-    	});
 
     	const handleClick = e => {
     		const id = e.target.parentNode.children[0].textContent;
     		const isAdmin = e.target.parentNode.children[2].textContent;
-    		fetch(`${"https://advent.hackkosice.com"}/api/${isAdmin === "false" ? "makeAdmin" : "removeAdmin"}/${id}`).then(() => getUsers());
+
+    		if (isAdmin === "false") {
+    			makeAdmin(id).then(() => updateUsersList());
+    		} else {
+    			removeAdmin(id).then(() => updateUsersList());
+    		}
     	};
 
     	const handleLogout = () => {
@@ -2521,11 +2895,7 @@ var app = (function () {
     			return;
     		}
 
-    		fetch(`${"https://advent.hackkosice.com"}/api/task/submit`, {
-    			method: "POST",
-    			headers: { "Content-Type": "application/json" },
-    			body: JSON.stringify({ day: selectedDay, title, text, answer })
-    		}).then(res => res.json()).then(data => {
+    		submitTask({ day: selectedDay, title, text, answer }).then(data => {
     			if (data.status === "ok") {
     				window.alert("Task submitted successfully");
     				$$invalidate(0, selectedDay = 0);
@@ -2569,13 +2939,17 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		onMount,
     		createEventDispatcher,
+    		getUsers,
+    		makeAdmin,
+    		removeAdmin,
+    		submitTask,
     		days,
     		selectedDay,
     		title,
     		text,
     		answer,
     		dispatch,
-    		getUsers,
+    		updateUsersList,
     		handleClick,
     		handleLogout,
     		handleSubmit,
