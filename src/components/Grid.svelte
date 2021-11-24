@@ -1,6 +1,5 @@
 <script>
 import { onMount } from "svelte";
-import { xlink_attr } from "svelte/internal";
 
 import { getTasks, makeSubmission } from "../utils/utils";
 
@@ -12,21 +11,19 @@ import { getTasks, makeSubmission } from "../utils/utils";
   const refreshBoxes = async () => {
     const data = await getTasks();
     boxes = data.payload;
-    selected = 0;
   }
 
   onMount(() => refreshBoxes());
 
   const handleSubmit = () => {
-    console.log(value);
     if(value.length === 0) {
       window.alert('Answer cannot be empty');
       return;
     }
-    makeSubmission({day: selected, answer: value})
+    makeSubmission({day: boxes[selected].day, answer: value})
     .then(data => {
       if(data.payload === 'correct') {
-        selected = "";
+        selected = -1;
         refreshBoxes();
         return;
       }
@@ -80,11 +77,22 @@ main {
 }
 .done {
     background-color: #ef611e;
+    border: none;
 }
 form {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+.task {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (min-width: 400px) {
+    form, button {
+        max-width: 400px;
+    }
 }
 </style>

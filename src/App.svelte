@@ -76,4 +76,11 @@ img {
 .feedback > * {
   color: inherit;
 }
+.feedback:hover {
+    background: #fff;
+    color: #ef611e;
+    border: 3px solid #ef611e;
+    border-right: none;
+    transform: translateY(5px);
+}
 </style>

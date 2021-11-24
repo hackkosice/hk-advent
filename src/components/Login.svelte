@@ -82,4 +82,9 @@ form {
     flex-direction: column;
     align-items: center;
 }
+@media (min-width: 400px) {
+    form, button {
+        max-width: 400px;
+    }
+}
 </style>
