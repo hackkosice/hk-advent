@@ -50,21 +50,21 @@
         </div>
         <Grid />
     {:else}
-        <h1>Sign {isSignup ? 'up' : 'in'}</h1>
-        <form action="" on:submit|preventDefault={handleSubmit}>
+    <form action="" on:submit|preventDefault={handleSubmit}>
+            <h1>Sign {isSignup ? 'up' : 'in'}</h1>
             <label for="username">Username</label>
             <input type=text id="username" bind:value={username}>
             <label for="password">Password</label>
             <input type=password id="password" bind:value={password}>
             <input type=submit value="Submit">
+            <button on:click={() => isSignup = !isSignup}>Sign {isSignup ? 'in' : 'up'}</button>
         </form>
-        <button on:click={() => isSignup = !isSignup}>Sign {isSignup ? 'in' : 'up'}</button>
     {/if}
 </main>
 
 <style>
 main {
-    width: 95%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -76,7 +76,14 @@ form {
     flex-direction: column;
     gap: 1rem;
     width: 100%;
+    background: var(--hk-dark);
+    padding: 3rem 2rem;
 }
+
+form h1 {
+    text-align: center;
+}
+
 .logout {
     display: flex;
     flex-direction: column;

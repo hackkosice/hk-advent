@@ -61,7 +61,7 @@ main {
 }
 #wrapper, .task {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   flex-flow: row wrap;
   justify-content: center;
 }
@@ -76,19 +76,23 @@ main {
   cursor: pointer;
 }
 .done {
-    background-color: #ef611e;
+    background-color: var(--orange);
     border: none;
 }
 form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 .task {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.task :global(img) {
+  max-width: 100%;
 }
 @media (min-width: 400px) {
     form, button {

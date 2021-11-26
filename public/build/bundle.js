@@ -1597,7 +1597,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "id", "wrapper");
-    			attr_dev(div, "class", "svelte-1tcoubu");
+    			attr_dev(div, "class", "svelte-9hwoxp");
     			add_location(div, file$3, 47, 4, 1094);
     		},
     		m: function mount(target, anchor) {
@@ -1691,11 +1691,11 @@ var app = (function () {
     			attr_dev(input1, "type", "submit");
     			input1.value = "Submit";
     			add_location(input1, file$3, 42, 8, 957);
-    			attr_dev(form, "class", "svelte-1tcoubu");
+    			attr_dev(form, "class", "svelte-9hwoxp");
     			add_location(form, file$3, 40, 6, 840);
-    			attr_dev(button, "class", "svelte-1tcoubu");
+    			attr_dev(button, "class", "svelte-9hwoxp");
     			add_location(button, file$3, 44, 6, 1016);
-    			attr_dev(div, "class", "task svelte-1tcoubu");
+    			attr_dev(div, "class", "task svelte-9hwoxp");
     			add_location(div, file$3, 37, 4, 741);
     		},
     		m: function mount(target, anchor) {
@@ -1772,7 +1772,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			add_location(p, file$3, 50, 10, 1254);
-    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*box*/ ctx[8].done ? "box done" : "box") + " svelte-1tcoubu"));
+    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*box*/ ctx[8].done ? "box done" : "box") + " svelte-9hwoxp"));
     			attr_dev(div, "data-day", div_data_day_value = /*box*/ ctx[8].day);
     			add_location(div, file$3, 49, 8, 1151);
     		},
@@ -1791,7 +1791,7 @@ var app = (function () {
     			ctx = new_ctx;
     			if (dirty & /*boxes*/ 1 && t0_value !== (t0_value = /*box*/ ctx[8].day + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*boxes*/ 1 && div_class_value !== (div_class_value = "" + (null_to_empty(/*box*/ ctx[8].done ? "box done" : "box") + " svelte-1tcoubu"))) {
+    			if (dirty & /*boxes*/ 1 && div_class_value !== (div_class_value = "" + (null_to_empty(/*box*/ ctx[8].done ? "box done" : "box") + " svelte-9hwoxp"))) {
     				attr_dev(div, "class", div_class_value);
     			}
 
@@ -1832,7 +1832,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			if_block.c();
-    			attr_dev(main, "class", "svelte-1tcoubu");
+    			attr_dev(main, "class", "svelte-9hwoxp");
     			add_location(main, file$3, 35, 0, 708);
     		},
     		l: function claim(nodes) {
@@ -1973,12 +1973,12 @@ var app = (function () {
 
     // (52:4) {:else}
     function create_else_block$1(ctx) {
+    	let form;
     	let h1;
     	let t0;
     	let t1_value = (/*isSignup*/ ctx[0] ? 'up' : 'in') + "";
     	let t1;
     	let t2;
-    	let form;
     	let label0;
     	let t4;
     	let input0;
@@ -1998,11 +1998,11 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			form = element("form");
     			h1 = element("h1");
     			t0 = text("Sign ");
     			t1 = text(t1_value);
     			t2 = space();
-    			form = element("form");
     			label0 = element("label");
     			label0.textContent = "Username";
     			t4 = space();
@@ -2018,7 +2018,8 @@ var app = (function () {
     			button = element("button");
     			t10 = text("Sign ");
     			t11 = text(t11_value);
-    			add_location(h1, file$2, 52, 8, 1702);
+    			attr_dev(h1, "class", "svelte-1khuvkx");
+    			add_location(h1, file$2, 53, 12, 1767);
     			attr_dev(label0, "for", "username");
     			add_location(label0, file$2, 54, 12, 1818);
     			attr_dev(input0, "type", "text");
@@ -2032,18 +2033,18 @@ var app = (function () {
     			attr_dev(input2, "type", "submit");
     			input2.value = "Submit";
     			add_location(input2, file$2, 58, 12, 2056);
+    			attr_dev(button, "class", "svelte-1khuvkx");
+    			add_location(button, file$2, 59, 12, 2103);
     			attr_dev(form, "action", "");
-    			attr_dev(form, "class", "svelte-5fqv7e");
-    			add_location(form, file$2, 53, 8, 1749);
-    			attr_dev(button, "class", "svelte-5fqv7e");
-    			add_location(button, file$2, 60, 8, 2115);
+    			attr_dev(form, "class", "svelte-1khuvkx");
+    			add_location(form, file$2, 52, 4, 1698);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h1, anchor);
+    			insert_dev(target, form, anchor);
+    			append_dev(form, h1);
     			append_dev(h1, t0);
     			append_dev(h1, t1);
-    			insert_dev(target, t2, anchor);
-    			insert_dev(target, form, anchor);
+    			append_dev(form, t2);
     			append_dev(form, label0);
     			append_dev(form, t4);
     			append_dev(form, input0);
@@ -2055,8 +2056,8 @@ var app = (function () {
     			set_input_value(input1, /*password*/ ctx[3]);
     			append_dev(form, t8);
     			append_dev(form, input2);
-    			insert_dev(target, t9, anchor);
-    			insert_dev(target, button, anchor);
+    			append_dev(form, t9);
+    			append_dev(form, button);
     			append_dev(button, t10);
     			append_dev(button, t11);
 
@@ -2064,8 +2065,8 @@ var app = (function () {
     				dispose = [
     					listen_dev(input0, "input", /*input0_input_handler*/ ctx[7]),
     					listen_dev(input1, "input", /*input1_input_handler*/ ctx[8]),
-    					listen_dev(form, "submit", prevent_default(/*handleSubmit*/ ctx[5]), false, true, false),
-    					listen_dev(button, "click", /*click_handler*/ ctx[9], false, false, false)
+    					listen_dev(button, "click", /*click_handler*/ ctx[9], false, false, false),
+    					listen_dev(form, "submit", prevent_default(/*handleSubmit*/ ctx[5]), false, true, false)
     				];
 
     				mounted = true;
@@ -2087,11 +2088,7 @@ var app = (function () {
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h1);
-    			if (detaching) detach_dev(t2);
     			if (detaching) detach_dev(form);
-    			if (detaching) detach_dev(t9);
-    			if (detaching) detach_dev(button);
     			mounted = false;
     			run_all(dispose);
     		}
@@ -2132,10 +2129,10 @@ var app = (function () {
     			t2 = text(/*userUsername*/ ctx[4]);
     			t3 = space();
     			create_component(grid.$$.fragment);
-    			attr_dev(button, "class", "svelte-5fqv7e");
+    			attr_dev(button, "class", "svelte-1khuvkx");
     			add_location(button, file$2, 47, 12, 1568);
     			add_location(p, file$2, 48, 12, 1628);
-    			attr_dev(div, "class", "logout svelte-5fqv7e");
+    			attr_dev(div, "class", "logout svelte-1khuvkx");
     			add_location(div, file$2, 46, 8, 1535);
     		},
     		m: function mount(target, anchor) {
@@ -2205,7 +2202,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			if_block.c();
-    			attr_dev(main, "class", "svelte-5fqv7e");
+    			attr_dev(main, "class", "svelte-1khuvkx");
     			add_location(main, file$2, 44, 0, 1499);
     		},
     		l: function claim(nodes) {
@@ -3188,21 +3185,21 @@ var app = (function () {
     			a = element("a");
     			a.textContent = "?";
     			add_location(h1, file, 12, 4, 415);
-    			attr_dev(header, "class", "svelte-ar2721");
+    			attr_dev(header, "class", "svelte-1a300jy");
     			add_location(header, file, 11, 2, 402);
-    			attr_dev(section, "class", "svelte-ar2721");
+    			attr_dev(section, "class", "svelte-1a300jy");
     			add_location(section, file, 14, 2, 470);
     			attr_dev(img, "alt", "Snow");
-    			if (!src_url_equal(img.src, img_src_value = "SNEH.svg")) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "class", "svelte-ar2721");
+    			if (!src_url_equal(img.src, img_src_value = "images/SNEH.svg")) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "class", "svelte-1a300jy");
     			add_location(img, file, 25, 2, 816);
     			attr_dev(a, "href", "mailto:dmatis@hackkosice.com?subject=HK%20Advent%20Feedback");
-    			attr_dev(a, "class", "svelte-ar2721");
-    			add_location(a, file, 26, 51, 901);
-    			attr_dev(button, "class", "feedback svelte-ar2721");
+    			attr_dev(a, "class", "svelte-1a300jy");
+    			add_location(a, file, 26, 51, 908);
+    			attr_dev(button, "class", "feedback svelte-1a300jy");
     			attr_dev(button, "title", "Send a feedback");
-    			add_location(button, file, 26, 2, 852);
-    			attr_dev(main, "class", "svelte-ar2721");
+    			add_location(button, file, 26, 2, 859);
+    			attr_dev(main, "class", "svelte-1a300jy");
     			add_location(main, file, 10, 0, 393);
     		},
     		l: function claim(nodes) {

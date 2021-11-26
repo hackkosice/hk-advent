@@ -23,7 +23,7 @@
       {/if}
     {/if}
   </section>
-  <img alt="Snow" src="SNEH.svg" />
+  <img alt="Snow" src="images/SNEH.svg" />
   <button class="feedback" title="Send a feedback"><a href="mailto:dmatis@hackkosice.com?subject=HK%20Advent%20Feedback">?</a></button>
 </main>
 
@@ -59,7 +59,7 @@ img {
 }
 .feedback {
   color: #fff;
-  background: #ef611e;
+  background: var(--orange);
   position: fixed;
   right: 0;
   top: 10rem;
@@ -78,8 +78,8 @@ img {
 }
 .feedback:hover {
     background: #fff;
-    color: #ef611e;
-    border: 3px solid #ef611e;
+    color: var(--orange);
+    border: 3px solid var(--orange);
     border-right: none;
     transform: translateY(5px);
 }
