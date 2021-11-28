@@ -3218,23 +3218,23 @@ var app = (function () {
     			button = element("button");
     			a = element("a");
     			a.textContent = "?";
-    			add_location(h1, file, 12, 4, 415);
+    			add_location(h1, file, 12, 4, 416);
     			attr_dev(header, "class", "svelte-1a300jy");
-    			add_location(header, file, 11, 2, 402);
+    			add_location(header, file, 11, 2, 403);
     			attr_dev(section, "class", "svelte-1a300jy");
-    			add_location(section, file, 14, 2, 470);
+    			add_location(section, file, 14, 2, 471);
     			attr_dev(img, "alt", "Snow");
     			if (!src_url_equal(img.src, img_src_value = "images/SNEH.svg")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "class", "svelte-1a300jy");
-    			add_location(img, file, 25, 2, 816);
+    			add_location(img, file, 25, 2, 817);
     			attr_dev(a, "href", "mailto:dmatis@hackkosice.com?subject=HK%20Advent%20Feedback");
     			attr_dev(a, "class", "svelte-1a300jy");
-    			add_location(a, file, 26, 51, 908);
+    			add_location(a, file, 26, 51, 909);
     			attr_dev(button, "class", "feedback svelte-1a300jy");
     			attr_dev(button, "title", "Send a feedback");
-    			add_location(button, file, 26, 2, 859);
+    			add_location(button, file, 26, 2, 860);
     			attr_dev(main, "class", "svelte-1a300jy");
-    			add_location(main, file, 10, 0, 393);
+    			add_location(main, file, 10, 0, 394);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3310,7 +3310,7 @@ var app = (function () {
     	let isAdmin;
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
-    	let adventHasStarted = true;
+    	let adventHasStarted = false;
     	const writable_props = [];
 
     	Object_1.keys($$props).forEach(key => {

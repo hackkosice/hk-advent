@@ -4,7 +4,7 @@
   import AdminPanel from "./components/AdminPanel.svelte";
   import { parseJwt } from "./utils/utils";
 
-  let adventHasStarted = true;
+  let adventHasStarted = false;
   $: isAdmin = Object.keys(window.localStorage).includes('token') ? parseJwt(window.localStorage.getItem('token')).isAdmin : false;
 </script>
 
