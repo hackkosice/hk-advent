@@ -1,5 +1,6 @@
 :root {
 	--hk: #5e2137;
+	--hk-dark: #3a061a;
 	--orange: #ef611e;
 	--white: #fff;
 }
@@ -11,9 +12,10 @@
 
 html, body {
 	width: 100vw;
-	height: 100vh;
+	min-height: 100vh;
 	margin: 0;
 	padding: 0;
+	overflow-x: hidden;
 }
 
 body, main {
@@ -24,4 +26,28 @@ body, main {
 a {
 	color: var(--orange);
 	text-decoration: none;
+}
+
+input, textarea {
+	height: 2rem;
+	background: transparent;
+	border: 2px solid #fff;
+	color: #fff;
+}
+
+input[type="submit"], button {
+    background: var(--orange);
+    color: #fff;
+    border: none;
+    height: 3rem;
+	width: 100%;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+input[type="submit"]:hover, button:hover {
+    background: #fff;
+    color: var(--orange);
+    border: 3px solid var(--orange);
+    transform: translateY(5px);
 }
