@@ -447,6 +447,10 @@ var app = (function () {
         else
             dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
     }
+    function prop_dev(node, property, value) {
+        node[property] = value;
+        dispatch_dev('SvelteDOMSetProperty', { node, property, value });
+    }
     function set_data_dev(text, data) {
         data = '' + data;
         if (text.wholeText === data)
@@ -1602,7 +1606,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "id", "wrapper");
-    			attr_dev(div, "class", "svelte-9hwoxp");
+    			attr_dev(div, "class", "svelte-1nxtt5g");
     			add_location(div, file$3, 52, 4, 1297);
     		},
     		m: function mount(target, anchor) {
@@ -1696,11 +1700,11 @@ var app = (function () {
     			attr_dev(input1, "type", "submit");
     			input1.value = "Submit";
     			add_location(input1, file$3, 47, 8, 1160);
-    			attr_dev(form, "class", "svelte-9hwoxp");
+    			attr_dev(form, "class", "svelte-1nxtt5g");
     			add_location(form, file$3, 45, 6, 1043);
-    			attr_dev(button, "class", "svelte-9hwoxp");
+    			attr_dev(button, "class", "svelte-1nxtt5g");
     			add_location(button, file$3, 49, 6, 1219);
-    			attr_dev(div, "class", "task svelte-9hwoxp");
+    			attr_dev(div, "class", "task svelte-1nxtt5g");
     			add_location(div, file$3, 42, 4, 944);
     		},
     		m: function mount(target, anchor) {
@@ -1777,7 +1781,7 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			add_location(p, file$3, 55, 10, 1457);
-    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*box*/ ctx[8].done ? "box done" : "box") + " svelte-9hwoxp"));
+    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*box*/ ctx[8].done ? "box done" : "box") + " svelte-1nxtt5g"));
     			attr_dev(div, "data-day", div_data_day_value = /*box*/ ctx[8].day);
     			add_location(div, file$3, 54, 8, 1354);
     		},
@@ -1796,7 +1800,7 @@ var app = (function () {
     			ctx = new_ctx;
     			if (dirty & /*boxes*/ 1 && t0_value !== (t0_value = /*box*/ ctx[8].day + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*boxes*/ 1 && div_class_value !== (div_class_value = "" + (null_to_empty(/*box*/ ctx[8].done ? "box done" : "box") + " svelte-9hwoxp"))) {
+    			if (dirty & /*boxes*/ 1 && div_class_value !== (div_class_value = "" + (null_to_empty(/*box*/ ctx[8].done ? "box done" : "box") + " svelte-1nxtt5g"))) {
     				attr_dev(div, "class", div_class_value);
     			}
 
@@ -1837,7 +1841,7 @@ var app = (function () {
     		c: function create() {
     			main = element("main");
     			if_block.c();
-    			attr_dev(main, "class", "svelte-9hwoxp");
+    			attr_dev(main, "class", "svelte-1nxtt5g");
     			add_location(main, file$3, 40, 0, 911);
     		},
     		l: function claim(nodes) {
@@ -2030,22 +2034,22 @@ var app = (function () {
     			t10 = text("Sign ");
     			t11 = text(t11_value);
     			attr_dev(h1, "class", "svelte-1khuvkx");
-    			add_location(h1, file$2, 53, 12, 1767);
+    			add_location(h1, file$2, 53, 12, 1763);
     			attr_dev(label0, "for", "username");
-    			add_location(label0, file$2, 54, 12, 1818);
+    			add_location(label0, file$2, 54, 12, 1814);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "username");
-    			add_location(input0, file$2, 55, 12, 1869);
+    			add_location(input0, file$2, 55, 12, 1865);
     			attr_dev(label1, "for", "password");
-    			add_location(label1, file$2, 56, 12, 1935);
+    			add_location(label1, file$2, 56, 12, 1931);
     			attr_dev(input1, "type", "password");
     			attr_dev(input1, "id", "password");
-    			add_location(input1, file$2, 57, 12, 1986);
+    			add_location(input1, file$2, 57, 12, 1982);
     			attr_dev(input2, "type", "submit");
     			input2.value = "Submit";
-    			add_location(input2, file$2, 58, 12, 2056);
+    			add_location(input2, file$2, 58, 12, 2052);
     			attr_dev(button, "class", "svelte-1khuvkx");
-    			add_location(button, file$2, 59, 12, 2103);
+    			add_location(button, file$2, 59, 12, 2123);
     			attr_dev(form, "action", "");
     			attr_dev(form, "class", "svelte-1khuvkx");
     			add_location(form, file$2, 52, 4, 1698);
@@ -2076,8 +2080,9 @@ var app = (function () {
     				dispose = [
     					listen_dev(input0, "input", /*input0_input_handler*/ ctx[7]),
     					listen_dev(input1, "input", /*input1_input_handler*/ ctx[8]),
+    					listen_dev(input2, "click", /*handleSubmit*/ ctx[5], false, false, false),
     					listen_dev(button, "click", /*click_handler*/ ctx[9], false, false, false),
-    					listen_dev(form, "submit", prevent_default(/*handleSubmit*/ ctx[5]), false, true, false)
+    					listen_dev(form, "submit", prevent_default(submit_handler), false, true, false)
     				];
 
     				mounted = true;
@@ -2277,6 +2282,10 @@ var app = (function () {
     	return block;
     }
 
+    const submit_handler = () => {
+    	
+    };
+
     function instance$2($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Login', slots, []);
@@ -2410,7 +2419,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (85:10) {#each users as user}
+    // (84:10) {#each users as user}
     function create_each_block_1(ctx) {
     	let tr;
     	let td0;
@@ -2422,9 +2431,10 @@ var app = (function () {
     	let t2;
     	let t3;
     	let td2;
-    	let t4_value = (/*user*/ ctx[20].admin === 1) + "";
+    	let input;
+    	let input_data_userid_value;
+    	let input_checked_value;
     	let t4;
-    	let t5;
     	let mounted;
     	let dispose;
 
@@ -2438,12 +2448,18 @@ var app = (function () {
     			t2 = text(t2_value);
     			t3 = space();
     			td2 = element("td");
-    			t4 = text(t4_value);
-    			t5 = space();
-    			add_location(td0, file$1, 86, 14, 2128);
-    			add_location(td1, file$1, 87, 14, 2161);
-    			add_location(td2, file$1, 88, 14, 2200);
-    			add_location(tr, file$1, 85, 12, 2086);
+    			input = element("input");
+    			t4 = space();
+    			add_location(td0, file$1, 85, 14, 2027);
+    			add_location(td1, file$1, 86, 14, 2060);
+    			attr_dev(input, "data-userid", input_data_userid_value = /*user*/ ctx[20].id);
+    			attr_dev(input, "type", "checkbox");
+    			attr_dev(input, "name", "isAdmin");
+    			attr_dev(input, "id", "isAdmin");
+    			input.checked = input_checked_value = /*user*/ ctx[20].admin === 1;
+    			add_location(input, file$1, 87, 18, 2103);
+    			add_location(td2, file$1, 87, 14, 2099);
+    			add_location(tr, file$1, 84, 12, 2008);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -2454,18 +2470,25 @@ var app = (function () {
     			append_dev(td1, t2);
     			append_dev(tr, t3);
     			append_dev(tr, td2);
-    			append_dev(td2, t4);
-    			append_dev(tr, t5);
+    			append_dev(td2, input);
+    			append_dev(tr, t4);
 
     			if (!mounted) {
-    				dispose = listen_dev(tr, "click", /*handleClick*/ ctx[6], false, false, false);
+    				dispose = listen_dev(input, "change", /*handleClick*/ ctx[6], false, false, false);
     				mounted = true;
     			}
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*users*/ 16 && t0_value !== (t0_value = /*user*/ ctx[20].id + "")) set_data_dev(t0, t0_value);
     			if (dirty & /*users*/ 16 && t2_value !== (t2_value = /*user*/ ctx[20].username + "")) set_data_dev(t2, t2_value);
-    			if (dirty & /*users*/ 16 && t4_value !== (t4_value = (/*user*/ ctx[20].admin === 1) + "")) set_data_dev(t4, t4_value);
+
+    			if (dirty & /*users*/ 16 && input_data_userid_value !== (input_data_userid_value = /*user*/ ctx[20].id)) {
+    				attr_dev(input, "data-userid", input_data_userid_value);
+    			}
+
+    			if (dirty & /*users*/ 16 && input_checked_value !== (input_checked_value = /*user*/ ctx[20].admin === 1)) {
+    				prop_dev(input, "checked", input_checked_value);
+    			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(tr);
@@ -2478,14 +2501,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(85:10) {#each users as user}",
+    		source: "(84:10) {#each users as user}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (100:10) {#each days as day}
+    // (99:10) {#each days as day}
     function create_each_block(ctx) {
     	let option;
     	let t0_value = /*day*/ ctx[17] + "";
@@ -2499,7 +2522,7 @@ var app = (function () {
     			t1 = space();
     			option.__value = /*day*/ ctx[17];
     			option.value = option.__value;
-    			add_location(option, file$1, 100, 12, 2535);
+    			add_location(option, file$1, 99, 12, 2538);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -2516,7 +2539,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(100:10) {#each days as day}",
+    		source: "(99:10) {#each days as day}",
     		ctx
     	});
 
@@ -2645,49 +2668,50 @@ var app = (function () {
     			input1 = element("input");
     			t26 = space();
     			input2 = element("input");
-    			add_location(h1, file$1, 72, 2, 1768);
-    			attr_dev(button, "class", "svelte-1lqdopk");
-    			add_location(button, file$1, 73, 2, 1791);
-    			add_location(h20, file$1, 76, 6, 1883);
-    			add_location(th0, file$1, 79, 10, 1943);
-    			add_location(th1, file$1, 80, 10, 1965);
-    			add_location(th2, file$1, 81, 10, 1993);
-    			add_location(thead, file$1, 78, 8, 1925);
-    			add_location(tbody, file$1, 83, 8, 2034);
-    			add_location(table, file$1, 77, 6, 1909);
-    			attr_dev(section0, "class", "svelte-1lqdopk");
-    			add_location(section0, file$1, 75, 4, 1867);
-    			add_location(h21, file$1, 95, 6, 2331);
+    			add_location(h1, file$1, 71, 2, 1690);
+    			attr_dev(button, "class", "svelte-6bua66");
+    			add_location(button, file$1, 72, 2, 1713);
+    			add_location(h20, file$1, 75, 6, 1805);
+    			add_location(th0, file$1, 78, 10, 1865);
+    			add_location(th1, file$1, 79, 10, 1887);
+    			add_location(th2, file$1, 80, 10, 1915);
+    			add_location(thead, file$1, 77, 8, 1847);
+    			add_location(tbody, file$1, 82, 8, 1956);
+    			attr_dev(table, "class", "svelte-6bua66");
+    			add_location(table, file$1, 76, 6, 1831);
+    			attr_dev(section0, "class", "svelte-6bua66");
+    			add_location(section0, file$1, 74, 4, 1789);
+    			add_location(h21, file$1, 94, 6, 2334);
     			attr_dev(label0, "for", "day");
-    			add_location(label0, file$1, 97, 8, 2413);
+    			add_location(label0, file$1, 96, 8, 2416);
     			attr_dev(select, "id", "day");
     			if (/*selectedDay*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[11].call(select));
-    			add_location(select, file$1, 98, 8, 2450);
+    			add_location(select, file$1, 97, 8, 2453);
     			attr_dev(label1, "for", "title");
-    			add_location(label1, file$1, 105, 8, 2642);
+    			add_location(label1, file$1, 104, 8, 2645);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "title");
-    			add_location(input0, file$1, 106, 8, 2683);
+    			add_location(input0, file$1, 105, 8, 2686);
     			attr_dev(label2, "for", "text");
-    			add_location(label2, file$1, 107, 8, 2767);
+    			add_location(label2, file$1, 106, 8, 2770);
     			attr_dev(textarea, "id", "text");
-    			add_location(textarea, file$1, 108, 8, 2806);
+    			add_location(textarea, file$1, 107, 8, 2809);
     			attr_dev(label3, "for", "answer");
-    			add_location(label3, file$1, 109, 8, 2879);
+    			add_location(label3, file$1, 108, 8, 2882);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "id", "answer");
-    			add_location(input1, file$1, 110, 8, 2922);
+    			add_location(input1, file$1, 109, 8, 2925);
     			attr_dev(input2, "type", "submit");
     			input2.value = "Submit";
-    			add_location(input2, file$1, 111, 8, 3008);
-    			attr_dev(form, "class", "svelte-1lqdopk");
-    			add_location(form, file$1, 96, 6, 2358);
-    			attr_dev(section1, "class", "svelte-1lqdopk");
-    			add_location(section1, file$1, 94, 4, 2315);
-    			attr_dev(div, "class", "wrapper svelte-1lqdopk");
-    			add_location(div, file$1, 74, 2, 1841);
-    			attr_dev(main, "class", "svelte-1lqdopk");
-    			add_location(main, file$1, 71, 0, 1759);
+    			add_location(input2, file$1, 110, 8, 3011);
+    			attr_dev(form, "class", "svelte-6bua66");
+    			add_location(form, file$1, 95, 6, 2361);
+    			attr_dev(section1, "class", "svelte-6bua66");
+    			add_location(section1, file$1, 93, 4, 2318);
+    			attr_dev(div, "class", "wrapper svelte-6bua66");
+    			add_location(div, file$1, 73, 2, 1763);
+    			attr_dev(main, "class", "svelte-6bua66");
+    			add_location(main, file$1, 70, 0, 1681);
     		},
     		l: function claim(nodes) {
     			throw new Error_1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2765,7 +2789,7 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*handleClick, users*/ 80) {
+    			if (dirty & /*users, handleClick*/ 80) {
     				each_value_1 = /*users*/ ctx[4];
     				validate_each_argument(each_value_1);
     				let i;
@@ -2869,10 +2893,9 @@ var app = (function () {
     	};
 
     	const handleClick = e => {
-    		const id = e.target.parentNode.children[0].textContent;
-    		const isAdmin = e.target.parentNode.children[2].textContent;
+    		const id = parseInt(e.target.dataset.userid);
 
-    		if (isAdmin === "false") {
+    		if (e.target.checked) {
     			makeAdmin(id).then(() => updateUsersList());
     		} else {
     			removeAdmin(id).then(() => updateUsersList());

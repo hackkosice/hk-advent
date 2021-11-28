@@ -94,6 +94,9 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 90%;
+  margin: auto;
+  line-height: 1.8rem;
 }
 
 .task :global(img) {

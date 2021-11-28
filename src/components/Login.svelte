@@ -50,13 +50,13 @@
         </div>
         <Grid />
     {:else}
-    <form action="" on:submit|preventDefault={handleSubmit}>
+    <form action="" on:submit|preventDefault={() => {}}>
             <h1>Sign {isSignup ? 'up' : 'in'}</h1>
             <label for="username">Username</label>
             <input type=text id="username" bind:value={username}>
             <label for="password">Password</label>
             <input type=password id="password" bind:value={password}>
-            <input type=submit value="Submit">
+            <input on:click={handleSubmit} type=submit value="Submit">
             <button on:click={() => isSignup = !isSignup}>Sign {isSignup ? 'in' : 'up'}</button>
         </form>
     {/if}
