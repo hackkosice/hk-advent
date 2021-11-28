@@ -33,6 +33,9 @@ export const post = async (url, body = {}, token = "") => {
     },
     body: JSON.stringify(body),
   });
+  if(resp.status === 429) {
+    throw new Error("Too many requests");
+  }
   const data = await resp.json();
   return data;
 };

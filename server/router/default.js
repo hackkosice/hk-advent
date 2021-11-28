@@ -6,6 +6,7 @@ const { generateToken } = require('../utils/utils');
 const { initDb, dbRun, dbGet, dbAll } = require('../utils/db');
 const bcrypt = require('bcrypt');
 const dayjs = require('dayjs');
+const { submissionLimiter } = require('../middleware/limiter');
 
 let db = initDb();
 dbRun(db, 'CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, admin INTEGER NOT NULL);');
@@ -15,6 +16,7 @@ dbRun(db, 'CREATE TABLE IF NOT EXISTS correctAnswers(id INTEGER PRIMARY KEY, use
 router.use(express.json());
 router.use(isAuthorized);
 router.use(isAdmin);
+router.use('/submission', submissionLimiter);
 
 router.get('/', (req, res) => {
     res.json({status: 'ok', version: require('../package.json').version});
@@ -133,7 +135,11 @@ router.get('/tasks', (req, res) => {
                 // res.json({status: 'ok', payload: rows.filter(r => dayjs().isAfter(dayjs(r.dateStart)))
                 //     .map(row => ({...row, done: rows2.some(r => r.username === username && r.day === row.day)}))
                 //     .sort((a,b) => a.day - b.day)});
-                res.json({status: 'ok', payload: rows.map(row => ({...row, done: rows2.some(r => r.username === username && r.day === row.day)})).sort((a,b) => a.day - b.day)});
+                res.json({
+                    status: 'ok', 
+                    payload: rows
+                        .map(row => ({...row, done: rows2.some(r => r.username === username && r.day === row.day)}))
+                        .sort((a,b) => a.day - b.day)});
                 return;
             }
             if(e) {
