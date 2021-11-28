@@ -22,6 +22,7 @@ import { getTasks, makeSubmission } from "../utils/utils";
     }
     makeSubmission({day: boxes[selected].day, answer: value})
     .then(data => {
+      console.log(data);
       if(data.payload === 'correct') {
         selected = -1;
         refreshBoxes();
@@ -29,7 +30,11 @@ import { getTasks, makeSubmission } from "../utils/utils";
       }
       window.alert(`Answer is ${data.payload}`);
       value = "";
-    })
+    }).catch(e => {
+      if(e.message === "Too many requests") {
+        window.alert("You are too fast, you need to wait at least 10 seconds before next submission.")
+      }
+    });
   };
 </script>
 
