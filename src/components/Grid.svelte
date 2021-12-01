@@ -24,6 +24,7 @@ import { getTasks, makeSubmission } from "../utils/utils";
     .then(data => {
       console.log(data);
       if(data.payload === 'correct') {
+        window.alert(`Answer is ${data.payload}`);
         selected = -1;
         refreshBoxes();
         return;

@@ -591,7 +591,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (52:2) {:else}
+    // (53:2) {:else}
     function create_else_block$2(ctx) {
     	let div;
     	let each_value = /*boxes*/ ctx[0];
@@ -612,7 +612,7 @@ var app = (function () {
 
     			attr_dev(div, "id", "wrapper");
     			attr_dev(div, "class", "svelte-1nxtt5g");
-    			add_location(div, file$3, 52, 4, 1297);
+    			add_location(div, file$3, 53, 4, 1348);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -656,14 +656,14 @@ var app = (function () {
     		block,
     		id: create_else_block$2.name,
     		type: "else",
-    		source: "(52:2) {:else}",
+    		source: "(53:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (42:2) {#if selected > -1}
+    // (43:2) {#if selected > -1}
     function create_if_block$2(ctx) {
     	let div;
     	let h3;
@@ -697,20 +697,20 @@ var app = (function () {
     			t4 = space();
     			button = element("button");
     			button.textContent = "Back";
-    			add_location(h3, file$3, 43, 6, 969);
+    			add_location(h3, file$3, 44, 6, 1020);
     			html_tag.a = t2;
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "placeholder", "Answer");
-    			add_location(input0, file$3, 46, 8, 1098);
+    			add_location(input0, file$3, 47, 8, 1149);
     			attr_dev(input1, "type", "submit");
     			input1.value = "Submit";
-    			add_location(input1, file$3, 47, 8, 1160);
+    			add_location(input1, file$3, 48, 8, 1211);
     			attr_dev(form, "class", "svelte-1nxtt5g");
-    			add_location(form, file$3, 45, 6, 1043);
+    			add_location(form, file$3, 46, 6, 1094);
     			attr_dev(button, "class", "svelte-1nxtt5g");
-    			add_location(button, file$3, 49, 6, 1219);
+    			add_location(button, file$3, 50, 6, 1270);
     			attr_dev(div, "class", "task svelte-1nxtt5g");
-    			add_location(div, file$3, 42, 4, 944);
+    			add_location(div, file$3, 43, 4, 995);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -756,14 +756,14 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(42:2) {#if selected > -1}",
+    		source: "(43:2) {#if selected > -1}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (54:6) {#each boxes as box, i}
+    // (55:6) {#each boxes as box, i}
     function create_each_block$1(ctx) {
     	let div;
     	let p;
@@ -785,10 +785,10 @@ var app = (function () {
     			p = element("p");
     			t0 = text(t0_value);
     			t1 = space();
-    			add_location(p, file$3, 55, 10, 1457);
+    			add_location(p, file$3, 56, 10, 1508);
     			attr_dev(div, "class", div_class_value = "" + (null_to_empty(/*box*/ ctx[8].done ? "box done" : "box") + " svelte-1nxtt5g"));
     			attr_dev(div, "data-day", div_data_day_value = /*box*/ ctx[8].day);
-    			add_location(div, file$3, 54, 8, 1354);
+    			add_location(div, file$3, 55, 8, 1405);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -824,7 +824,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(54:6) {#each boxes as box, i}",
+    		source: "(55:6) {#each boxes as box, i}",
     		ctx
     	});
 
@@ -847,7 +847,7 @@ var app = (function () {
     			main = element("main");
     			if_block.c();
     			attr_dev(main, "class", "svelte-1nxtt5g");
-    			add_location(main, file$3, 40, 0, 911);
+    			add_location(main, file$3, 41, 0, 962);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -912,6 +912,7 @@ var app = (function () {
     			console.log(data);
 
     			if (data.payload === 'correct') {
+    				window.alert(`Answer is ${data.payload}`);
     				$$invalidate(1, selected = -1);
     				refreshBoxes();
     				return;
