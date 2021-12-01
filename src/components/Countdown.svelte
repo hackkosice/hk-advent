@@ -8,26 +8,6 @@
 
     const dispatch = createEventDispatcher();
 
-    const renderWelcomeText = () => {
-        new TypeIt("#title", {
-            cursor: false,
-            speed: 100,
-            deleteSpeed: 25,
-            afterComplete: () => textRendered = true
-        })
-            .type("Starts")
-            .pause(1000)
-            .delete()
-            .type("Dec 1st")
-            .pause(1000)
-            .delete()
-            .type("Get ready!")
-            .pause(1000)
-            .delete()
-            .pause(1000)
-            .go();
-    }
-
     dayjs.extend(utc);
     dayjs.extend(timezone);
     dayjs.extend(duration);

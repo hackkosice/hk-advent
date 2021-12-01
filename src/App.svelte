@@ -1,10 +1,8 @@
 <script>
-  import Countdown from "./components/Countdown.svelte";
   import Login from "./components/Login.svelte";
   import AdminPanel from "./components/AdminPanel.svelte";
   import { parseJwt } from "./utils/utils";
 
-  let adventHasStarted = false;
   $: isAdmin = Object.keys(window.localStorage).includes('token') ? parseJwt(window.localStorage.getItem('token')).isAdmin : false;
 </script>
 
@@ -16,11 +14,7 @@
     {#if isAdmin}
       <AdminPanel on:logout={() => isAdmin = false} />
     {:else}
-      {#if adventHasStarted}
-        <Login on:login={admin => isAdmin = admin.detail.admin} on:logout={() => isAdmin = false} />
-      {:else}
-        <Countdown on:start|once={() => (adventHasStarted = true)} />
-      {/if}
+      <Login on:login={admin => isAdmin = admin.detail.admin} on:logout={() => isAdmin = false} />
     {/if}
   </section>
   <img alt="Snow" src="images/SNEH.svg" />
