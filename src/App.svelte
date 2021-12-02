@@ -19,6 +19,7 @@
   </section>
   <img alt="Snow" src="images/SNEH.svg" />
   <button class="feedback" title="Send a feedback"><a href="mailto:dmatis@hackkosice.com?subject=HK%20Advent%20Feedback">?</a></button>
+  <button class="hint" title="Hack Kosice FB page"><a href="https://www.facebook.com/hackkosice"><img src="images/facebook.png" alt="facebook icon"></a></button>
 </main>
 
 <style>
@@ -49,9 +50,10 @@ section {
 img {
   position: fixed;
   bottom: 0;
+  left: 0;
   transform: rotateY(180deg);
 }
-.feedback {
+.feedback, .hint {
   color: #fff;
   background: var(--orange);
   position: fixed;
@@ -67,10 +69,21 @@ img {
   align-items: center;
   font-size: 2rem;
 }
+.hint {
+  top: 15rem;
+}
+
+.hint img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
 .feedback > * {
   color: inherit;
 }
-.feedback:hover {
+.feedback:hover,
+.hint:hover {
     background: #fff;
     color: var(--orange);
     border: 3px solid var(--orange);
