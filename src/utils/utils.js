@@ -94,3 +94,8 @@ export const makeSubmission = async (body) => {
   );
   return data;
 };
+
+export const getLeaderboard = async () => {
+  const data = await get(`${process.env.API_URL}/api/leaderboard`);
+  return data;
+}

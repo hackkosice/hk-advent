@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const skipLinks = ['/signup', '/signin'];
+const skipLinks = ['/signup', '/signin', '/leaderboard'];
 
 const isAuthorized = (req, res, next) => {
     if(skipLinks.map(link => new RegExp(link)).some(link => req.url.match(link))) return next();

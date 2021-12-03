@@ -1,9 +1,15 @@
 <script>
   import Login from "./components/Login.svelte";
   import AdminPanel from "./components/AdminPanel.svelte";
+  import Modal from "./components/Modal.svelte";
   import { parseJwt } from "./utils/utils";
 
   $: isAdmin = Object.keys(window.localStorage).includes('token') ? parseJwt(window.localStorage.getItem('token')).isAdmin : false;
+  let isLeaderboardVisible = false;
+
+  const handleClose = () => {
+    isLeaderboardVisible = false;
+  }
 </script>
 
 <main>
@@ -20,6 +26,10 @@
   <img alt="Snow" src="images/SNEH.svg" />
   <button class="feedback" title="Send a feedback"><a href="mailto:dmatis@hackkosice.com?subject=HK%20Advent%20Feedback">?</a></button>
   <button class="hint" title="Hack Kosice FB page"><a href="https://www.facebook.com/hackkosice"><img src="images/facebook.png" alt="facebook icon"></a></button>
+  <button class="leaderboard" title="Hack Kosice FB page" on:click={() => isLeaderboardVisible = true}>&starf;</button>
+  {#if isLeaderboardVisible}
+    <Modal on:close={handleClose} />
+  {/if}
 </main>
 
 <style>
@@ -53,7 +63,9 @@ img {
   left: 0;
   transform: rotateY(180deg);
 }
-.feedback, .hint {
+.feedback, 
+.hint,
+.leaderboard {
   color: #fff;
   background: var(--orange);
   position: fixed;
@@ -71,6 +83,9 @@ img {
 }
 .hint {
   top: 15rem;
+}
+.leaderboard {
+  top: 20rem;
 }
 
 .hint img {

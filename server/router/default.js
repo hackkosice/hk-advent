@@ -178,5 +178,33 @@ router.post('/submission', (req, res) => {
     })
 });
 
+router.get('/leaderboard', (req, res) => {
+    dbAll(db, 'SELECT username, COUNT(day) AS count FROM (SELECT DISTINCT username, day FROM correctAnswers ORDER BY username desc) GROUP BY username ORDER BY COUNT(day) DESC', [], (e, rows) => {
+        if(e) throw e;
+        res.json({status: 'ok', payload: rows});
+    })
+});
+
+router.get('/solvedTasks', (req, res) => {
+    dbGet(db, 'SELECT COUNT(*) as solvedTasks FROM correctAnswers', [], (e, row) => {
+        if(e) throw e;
+        res.json({status: 'ok', payload: row});
+    });
+});
+
+router.get('/submittedAnswers', (req, res) => {
+    dbGet(db, 'SELECT COUNT(*) as submittedAnswers FROM submissions', [], (e, row) => {
+        if(e) throw e;
+        res.json({status: 'ok', payload: row});
+    });
+});
+
+router.get('/numberOfUsers', (req, res) => {
+    dbGet(db, 'SELECT COUNT(*) as numberOfUsers FROM users', [], (e, row) => {
+        if(e) throw e;
+        res.json({status: 'ok', payload: row});
+    });
+});
+
 router.use(errorHandler);
 module.exports = router;
