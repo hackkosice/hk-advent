@@ -26,7 +26,7 @@
   <img alt="Snow" src="images/SNEH.svg" />
   <button class="feedback" title="Send a feedback"><a href="mailto:dmatis@hackkosice.com?subject=HK%20Advent%20Feedback">?</a></button>
   <button class="hint" title="Hack Kosice FB page"><a href="https://www.facebook.com/hackkosice"><img src="images/facebook.png" alt="facebook icon"></a></button>
-  <button class="leaderboard" title="Hack Kosice FB page" on:click={() => isLeaderboardVisible = true}>&starf;</button>
+  <button class="leaderboard" title="Leaderboard" on:click={() => isLeaderboardVisible = true}>&starf;</button>
   {#if isLeaderboardVisible}
     <Modal on:close={handleClose} />
   {/if}
