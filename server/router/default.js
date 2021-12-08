@@ -132,9 +132,23 @@ router.get('/tasks', (req, res) => {
     dbAll(db, 'SELECT day, dateStart, title, text FROM tasks', [], (e, rows) => {
         dbAll(db, 'SELECT username, day FROM correctAnswers', [], (e2, rows2) => {
             if(rows) {
-                // res.json({status: 'ok', payload: rows.filter(r => dayjs().isAfter(dayjs(r.dateStart)))
-                //     .map(row => ({...row, done: rows2.some(r => r.username === username && r.day === row.day)}))
-                //     .sort((a,b) => a.day - b.day)});
+                res.json({status: 'ok', payload: rows.filter(r => dayjs().isAfter(dayjs(r.dateStart)))
+                    .map(row => ({...row, done: rows2.some(r => r.username === username && r.day === row.day)}))
+                    .sort((a,b) => a.day - b.day)});
+                return;
+            }
+            if(e) {
+                throw e;
+            }
+        })
+    });
+});
+
+router.get('/adminTasks', (req, res) => {
+    const { username } = req.user;
+    dbAll(db, 'SELECT day, dateStart, title, text FROM tasks', [], (e, rows) => {
+        dbAll(db, 'SELECT username, day FROM correctAnswers', [], (e2, rows2) => {
+            if(rows) {
                 res.json({
                     status: 'ok', 
                     payload: rows
@@ -164,11 +178,11 @@ router.get('/task/:day', (req, res) => {
 router.post('/submission', (req, res) => {
     const { day, answer } = req.body;
     const { username } = req.user;
-    dbRun(db, 'INSERT INTO submissions(username, day, answer) VALUES (?, ?, ?)', [username, day, answer]);
+    dbRun(db, 'INSERT INTO submissions(username, day, answer) VALUES (?, ?, ?)', [username, day, answer.toString().toLowerCase().trim()]);
     dbGet(db, 'SELECT answer FROM tasks WHERE day = ?', [day], (e, row) => {
         if(e) throw e;
         if(row) {
-            if(row.answer === answer) {
+            if(row.answer.toString().toLowerCase().trim() === answer.toString().toLowerCase().trim()) {
                 res.json({status: 'ok', payload: 'correct'});
                 dbRun(db, 'INSERT INTO correctAnswers(username, day) VALUES (?, ?)', [username, day]);
             } else {
