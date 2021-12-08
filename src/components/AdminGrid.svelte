@@ -1,45 +1,20 @@
 <script>
 import { onMount } from "svelte";
 
-import { getTasks, makeSubmission } from "../utils/utils";
+import { getAdminTasks } from "../utils/utils";
 
 
   let boxes = [];
   let selected = -1;
-  let value = "";
 
   const refreshBoxes = async () => {
-    const data = await getTasks();
+    const data = await getAdminTasks();
     boxes = data.payload;
   }
 
   onMount(() => refreshBoxes());
 
-  const handleSubmit = () => {
-    if(value.length === 0) {
-      window.alert('Answer cannot be empty');
-      return;
-    }
-    makeSubmission({day: boxes[selected].day, answer: value})
-    .then(data => {
-      console.log(data);
-      if(data.payload === 'correct') {
-        window.alert(`Answer is ${data.payload}`);
-        selected = -1;
-        refreshBoxes();
-        return;
-      }
-      window.alert(`Answer is ${data.payload}`);
-      value = "";
-    }).catch(e => {
-      if(e.message === "Too many requests") {
-        window.alert("You are too fast, you need to wait at least 10 seconds before next submission.")
-      }
-    });
-  };
-
   const goBack = () => {
-    value = "";
     selected = -1;
   }
 </script>
@@ -49,10 +24,6 @@ import { getTasks, makeSubmission } from "../utils/utils";
     <div class="task">
       <h3>{boxes[selected].title}</h3>
       {@html boxes[selected].text}
-      <form on:submit|preventDefault={handleSubmit}>
-        <input type="text" bind:value placeholder="Answer" />
-        <input type="submit" value="Submit" />
-      </form>
       <button on:click={goBack}>Back</button>
     </div>
   {:else}

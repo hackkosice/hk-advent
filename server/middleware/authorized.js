@@ -11,7 +11,7 @@ const isAuthorized = (req, res, next) => {
     next();
 }
 
-const dontSkipLinks = ['/makeAdmin/\d+', '/removeAdmin/\d+']
+const dontSkipLinks = ['/makeAdmin/\d+', '/removeAdmin/\d+', '/adminTasks']
 const isAdmin = (req, res, next) => {
     if(!dontSkipLinks.map(link => new RegExp(link)).some(link => req.url.match(link))) return next();
     if(req.user.admin === 0) {

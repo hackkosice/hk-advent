@@ -78,6 +78,14 @@ export const getTasks = async () => {
   return data;
 };
 
+export const getAdminTasks = async () => {
+  const data = await get(
+    `${process.env.API_URL}/api/adminTasks`,
+    window.localStorage.getItem("token")
+  );
+  return data;
+};
+
 export const getTask = async (day) => {
   const data = await get(
     `${process.env.API_URL}/api/task/${day}`,
